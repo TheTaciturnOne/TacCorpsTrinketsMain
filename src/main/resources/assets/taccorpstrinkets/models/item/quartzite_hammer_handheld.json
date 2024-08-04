@@ -1,0 +1,45 @@
+{
+	"credit": "MilkyFur",
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "taccorpstrinkets:item/quartzite_hammer_handheld"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [6, -90, 48],
+			"translation": [0, 7.5, 2.5],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [6, 90, -48],
+			"translation": [0, 7.5, 2.5],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -90, 45],
+			"translation": [2.88, 7.7, 1.13],
+			"scale": [1.4, 1.4, 1.3]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 90, -45],
+			"translation": [2.88, 7.7, 1.13],
+			"scale": [1.4, 1.4, 1.3]
+		},
+		"ground": {
+			"translation": [0, 1.75, 0],
+			"scale": [0.8, 0.8, 1]
+		},
+		"head": {
+			"rotation": [0, -90, 156],
+			"translation": [0, 9.5, 0]
+		}
+	},
+	"groups": [
+		{
+			"name": "quartzite_hammer_handheld",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": []
+		}
+	]
+}

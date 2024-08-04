@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "taccorpstrinkets:quartz_glass",
+    "taccorpstrinkets:quartz_glass_pane",
+    "taccorpstrinkets:budding_natural_quartz_crystal",
+    "taccorpstrinkets:engraved_quartz_block",
+    "taccorpstrinkets:natural_quartz_crystal",
+    "taccorpstrinkets:quartz_crystal_growth"
+  ]
+}

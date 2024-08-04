@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_glass_pane_post",
+  "textures": {
+    "edge": "taccorpstrinkets:block/netherite_strengthened_quartz_glass_pane_top",
+    "pane": "taccorpstrinkets:block/netherite_strengthened_quartz_glass"
+  }
+}

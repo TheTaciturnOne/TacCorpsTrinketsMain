@@ -1,0 +1,33 @@
+{
+  "tacplush_booped": {
+    "subtitle": "subtitles.taccorpstrinkets.tacplush_booped",
+    "sounds": [
+      "taccorpstrinkets:tac_plushie_noise"
+    ]
+  },
+  "hammer_slammed": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_slammed",
+    "sounds": [
+      "taccorpstrinkets:hammer_slam",
+      "taccorpstrinkets:hammer_slam_2"
+    ]
+  },
+  "weak_hammer_slammed": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_slammed",
+    "sounds": [
+      "taccorpstrinkets:weak_hammer_slam"
+    ]
+  },
+  "hammer_throw": {
+  "subtitle": "subtitles.taccorpstrinkets.hammer_throw",
+  "sounds": [
+    "taccorpstrinkets:hammer_throw"
+  ]
+  },
+  "hammer_shockwave": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_shockwave",
+    "sounds": [
+      "taccorpstrinkets:hammer_shockwave"
+    ]
+  }
+}

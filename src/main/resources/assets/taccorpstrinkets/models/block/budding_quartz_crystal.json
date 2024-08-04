@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "taccorpstrinkets:block/budding_quartz",
+    "side": "taccorpstrinkets:block/budding_quartz"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "criteria": {
+    "tick": {
+      "conditions": {},
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "taccorpstrinkets:textures/block/netherite_strengthened_quartz_block_top.png",
+    "description": "You've installed TacCorp's exclusive features!",
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "taccorpstrinkets:netherite_strengthened_engraved_quartz_block"
+    },
+    "show_toast": false,
+    "title": "Welcome to TacCorp's Trinkets!"
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T#T",
+    "#X#",
+    "A#A"
+  ],
+  "key": {
+    "#": {
+      "item": "taccorpstrinkets:quartzite"
+    },
+    "X": {
+      "item": "minecraft:ender_eye"
+    },
+    "T": {
+      "item": "taccorpstrinkets:prismatic_quartz_shard"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "result": {
+    "item": "taccorpstrinkets:quartzite_relocator"
+  }
+}

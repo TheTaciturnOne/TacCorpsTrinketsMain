@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "taccorpstrinkets:engraved_quartz_block",
+    "taccorpstrinkets:quartz_crystal",
+    "taccorpstrinkets:quartz_crystal_cluster",
+    "taccorpstrinkets:large_quartz_crystal_cluster",
+    "taccorpstrinkets:medium_quartz_crystal_cluster",
+    "taccorpstrinkets:small_quartz_crystal_cluster",
+    "taccorpstrinkets:quartz_glass",
+    "taccorpstrinkets:quartz_glass_pane",
+    "taccorpstrinkets:netherite_frame",
+    "taccorpstrinkets:netherite_strengthened_quartz_block",
+    "taccorpstrinkets:netherite_strengthened_quartz_slab",
+    "taccorpstrinkets:netherite_strengthened_quartz_stairs",
+    "taccorpstrinkets:netherite_strengthened_quartz_bricks",
+    "taccorpstrinkets:netherite_strengthened_engraved_quartz_block",
+    "taccorpstrinkets:netherite_strengthened_chiseled_quartz_block",
+    "taccorpstrinkets:netherite_strengthened_quartz_pillar",
+    "taccorpstrinkets:netherite_strengthened_quartz_glass",
+    "taccorpstrinkets:netherite_strengthened_quartz_glass_pane"
+  ]
+}

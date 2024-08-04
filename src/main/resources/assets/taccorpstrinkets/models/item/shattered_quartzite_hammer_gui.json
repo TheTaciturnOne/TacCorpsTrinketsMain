@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "taccorpstrinkets:item/shattered_quartzite_hammer_gui"
+  }
+}

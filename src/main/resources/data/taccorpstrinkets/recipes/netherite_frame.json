@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T#T",
+    "#X#",
+    "T#T"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "X": {
+      "item": "minecraft:iron_bars"
+    },
+    "T": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "result": {
+    "count": 8,
+    "item": "taccorpstrinkets:netherite_frame"
+  }
+}

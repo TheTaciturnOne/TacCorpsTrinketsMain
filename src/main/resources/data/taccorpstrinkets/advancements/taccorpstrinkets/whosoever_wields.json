@@ -1,0 +1,35 @@
+{
+  "parent": "taccorpstrinkets:taccorpstrinkets/root",
+  "criteria": {
+    "thrown_hammer": {
+      "conditions": {
+        "damage": {
+          "type": {
+            "direct_entity": {
+              "type": "taccorpstrinkets:thrown_hammer"
+            },
+            "is_projectile": true
+          }
+        }
+      },
+      "trigger": "minecraft:player_hurt_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": "Use a Quartzite Hammer with Flinging on a mob",
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "taccorpstrinkets:quartzite_hammer",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": "Whosoever Wields the Power...."
+  },
+  "requirements": [
+    [
+      "thrown_hammer"
+    ]
+  ]
+}

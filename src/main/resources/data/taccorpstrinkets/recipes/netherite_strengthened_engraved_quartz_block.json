@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "addition": {
+    "item": "taccorpstrinkets:netherite_frame"
+  },
+  "base": {
+    "item": "taccorpstrinkets:engraved_quartz_block"
+  },
+  "result": {
+    "item": "taccorpstrinkets:netherite_strengthened_engraved_quartz_block"
+  }
+}

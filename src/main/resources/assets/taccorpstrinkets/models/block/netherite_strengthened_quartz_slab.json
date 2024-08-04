@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "taccorpstrinkets:block/netherite_strengthened_quartz_block_bottom",
+    "side": "taccorpstrinkets:block/netherite_strengthened_quartz_slab_side",
+    "top": "taccorpstrinkets:block/netherite_strengthened_quartz_block_top"
+  }
+}

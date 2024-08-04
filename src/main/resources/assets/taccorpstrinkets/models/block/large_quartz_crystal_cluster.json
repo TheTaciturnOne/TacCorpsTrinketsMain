@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "taccorpstrinkets:block/large_quartz_bud"
+  }
+}

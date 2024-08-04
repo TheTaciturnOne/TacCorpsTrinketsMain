@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "taccorpstrinkets:netherite_frame",
+    "taccorpstrinkets:netherite_strengthened_quartz_block",
+    "taccorpstrinkets:netherite_strengthened_chiseled_quartz_block",
+    "taccorpstrinkets:netherite_strengthened_engraved_quartz_block",
+    "taccorpstrinkets:netherite_strengthened_quartz_bricks",
+    "taccorpstrinkets:netherite_strengthened_quartz_glass",
+    "taccorpstrinkets:netherite_strengthened_quartz_glass_pane",
+    "taccorpstrinkets:netherite_strengthened_quartz_pillar",
+    "taccorpstrinkets:netherite_strengthened_quartz_slab",
+    "taccorpstrinkets:netherite_strengthened_quartz_stairs"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "taccorpstrinkets:netherite_strengthened_quartz_block"
+  },
+  "result": "taccorpstrinkets:netherite_strengthened_chiseled_quartz_block"
+}

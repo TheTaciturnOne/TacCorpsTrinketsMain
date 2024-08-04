@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "taccorpstrinkets:block/tac_plushie",
+      "y": 90
+    },
+
+    "facing=north": {
+      "model": "taccorpstrinkets:block/tac_plushie"
+    },
+
+    "facing=south": {
+      "model": "taccorpstrinkets:block/tac_plushie",
+      "y": 180
+    },
+
+    "facing=west": {
+      "model": "taccorpstrinkets:block/tac_plushie",
+      "y": 270
+    }
+  }
+}
