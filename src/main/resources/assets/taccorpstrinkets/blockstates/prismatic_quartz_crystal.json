@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "taccorpstrinkets:block/prismatic_quartz_crystal"
+    },
+    "lit=true": {
+      "model": "taccorpstrinkets:block/prismatic_quartz_crystal_on"
+    }
+  }
+}

@@ -11,4 +11,5 @@ public class TacDamage {
 	}
 
 	public static final DamageSource HAMMER_SHOCKWAVE = new DamageSource("hammer_shockwave");
+	public static final DamageSource HAMMER_POWERSALM = new DamageSource("hammer_powerslam");
 }

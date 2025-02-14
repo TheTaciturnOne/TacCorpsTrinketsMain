@@ -4,17 +4,16 @@ import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import net.minecraft.block.Blocks;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.util.Holder;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.util.ConfiguredFeatureUtil;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
 
 public class TacConfigFeatures {
-	public static final Holder<ConfiguredFeature<GeodeFeatureConfig, ?>> NATURAL_QUARTZ_GEODE =
-            ConfiguredFeatureUtil.register("natural_quartz_geode",
+	public static final RegistryEntry<ConfiguredFeature<GeodeFeatureConfig, ?>> NATURAL_QUARTZ_GEODE =
+            ConfiguredFeatures.register("natural_quartz_geode",
 				Feature.GEODE, new GeodeFeatureConfig(new GeodeLayerConfig(BlockStateProvider.of(Blocks.AIR),
 					BlockStateProvider.of(TacBlocks.QUARTZ_CRYSTAL),
 					BlockStateProvider.of(TacBlocks.BUDDING_QUARTZ_CRYSTAL),

@@ -2,7 +2,6 @@ package com.thetaciturnone.taccorpstrinkets.entity;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEntities;
-import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,6 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -23,27 +25,35 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ThrownHammerEntity extends PersistentProjectileEntity {
-	private ItemStack tridentStack;
+	public static final TrackedData<NbtCompound> THROWN_ITEM = DataTracker.registerData(ThrownHammerEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 	private boolean dealtDamage;
 	public int returnTimer;
 
 	public ThrownHammerEntity(EntityType<? extends ThrownHammerEntity> entityType, World world) {
 		super(entityType, world);
-		this.tridentStack = new ItemStack(TacItems.QUARTZITE_HAMMER);
 	}
 
 	public ThrownHammerEntity(World world, LivingEntity owner, ItemStack stack) {
 		super(TacEntities.THROWN_HAMMER, owner, world);
-		this.tridentStack = new ItemStack(TacItems.QUARTZITE_HAMMER);
-		this.tridentStack = stack.copy();
+		this.dataTracker.set(THROWN_ITEM, stack.copy().writeNbt(new NbtCompound()));
 	}
 
+	public ItemStack getItemStack() {
+		return ItemStack.fromNbt(this.getDataTracker().get(THROWN_ITEM));
+	}
+
+
 	public ItemStack getItem() {
-		return TacItems.QUARTZITE_HAMMER.getDefaultStack();
+		return this.getItemStack();
+	}
+
+	public void setItemStack(ItemStack stack) {
+		this.getDataTracker().set(THROWN_ITEM, stack.writeNbt(new NbtCompound()));
 	}
 
 	protected void initDataTracker() {
 		super.initDataTracker();
+		this.dataTracker.startTracking(THROWN_ITEM, new NbtCompound());
 	}
 
 	public void tick() {
@@ -61,7 +71,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 				}
 
 				double d = 0.05;
-				this.setVelocity(this.getVelocity().multiply(1).add(vec3d.normalize().multiply(d)));
+				this.setVelocity(this.getVelocity().multiply(0.9D).add(vec3d.normalize().multiply(0.25D)));
 				if (this.returnTimer == 0) {
 					this.playSound(TacCorpsTrinkets.HAMMER_THROW, 10.0F, 1.0F);
 				}
@@ -81,7 +91,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 	}
 
 	protected ItemStack asItemStack() {
-		return this.tridentStack.copy();
+		return this.getItemStack().copy();
 	}
 
 	@Nullable
@@ -93,7 +103,8 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		Entity entity = entityHitResult.getEntity();
 		float f = 8.0F;
 		if (entity instanceof LivingEntity livingEntity) {
-			f += EnchantmentHelper.getAttackDamage(this.tridentStack, livingEntity.getGroup());
+			f += EnchantmentHelper.getAttackDamage(this.getItem(), livingEntity.getGroup());
+			((LivingEntity) entity).takeKnockback(1.5, entity.getX() - this.getX(), entity.getZ() - this.getZ() );
 		}
 
 		Entity entity2 = this.getOwner();
@@ -139,7 +150,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
 		if (nbt.contains("Hammer", 10)) {
-			this.tridentStack = ItemStack.fromNbt(nbt.getCompound("Hammer"));
+			this.setItemStack(ItemStack.fromNbt(nbt.getCompound("Hammer")));
 		}
 
 		this.dealtDamage = nbt.getBoolean("DealtDamage");
@@ -147,7 +158,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
-		nbt.put("Hammer", this.tridentStack.writeNbt(new NbtCompound()));
+		nbt.put("Hammer", this.getDataTracker().get(THROWN_ITEM));
 		nbt.putBoolean("DealtDamage", this.dealtDamage);
 	}
 

@@ -7,8 +7,8 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "taccorpstrinkets:textures/block/netherite_strengthened_quartz_block_top.png",
-    "description": "You've installed TacCorp's exclusive features!",
+    "background": "taccorpstrinkets:textures/block/netherite_strengthened_quartz_pillar.png",
+    "description": "You've installed TacCorp's very own exclusive features!",
     "frame": "task",
     "hidden": false,
     "icon": {

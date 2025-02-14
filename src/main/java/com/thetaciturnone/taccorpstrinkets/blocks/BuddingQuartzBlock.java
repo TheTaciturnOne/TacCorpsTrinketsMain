@@ -7,13 +7,15 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.random.RandomGenerator;
 
-public class BuddingQuartzBlock extends AmethystBlock {
+import java.util.Random;
+
+public class BuddingQuartzBlock extends QuartzCrystalBlock {
 	public static final int GROW_CHANCE = 5;
 	private static final Direction[] DIRECTIONS = Direction.values();
 
-	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, RandomGenerator random) {
+	@Override
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
 		if (random.nextInt(5) == 0) {
 			Direction direction = DIRECTIONS[random.nextInt(DIRECTIONS.length)];
 			BlockPos blockPos = pos.offset(direction);
@@ -30,12 +32,13 @@ public class BuddingQuartzBlock extends AmethystBlock {
 			}
 
 			if (block != null) {
-				BlockState blockState2 = (BlockState)((BlockState)block.getDefaultState().with(AmethystClusterBlock.FACING, direction)).with(AmethystClusterBlock.WATERLOGGED, blockState.getFluidState().getFluid() == Fluids.WATER);
+				BlockState blockState2 = block.getDefaultState().with(AmethystClusterBlock.FACING, direction).with(AmethystClusterBlock.WATERLOGGED, blockState.getFluidState().getFluid() == Fluids.WATER);
 				world.setBlockState(blockPos, blockState2);
 			}
 
 		}
 	}
+
 	public PistonBehavior getPistonBehavior(BlockState state) {
 		return PistonBehavior.DESTROY;
 	}

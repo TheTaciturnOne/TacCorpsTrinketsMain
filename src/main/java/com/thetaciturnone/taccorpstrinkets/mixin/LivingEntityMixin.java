@@ -1,6 +1,7 @@
 package com.thetaciturnone.taccorpstrinkets.mixin;
 
 import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -12,15 +13,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin {
+public abstract class LivingEntityMixin extends Entity {
+	public LivingEntityMixin(EntityType<?> type, World world) {
+		super(type, world);
+	}
+
 	@Shadow
 	public abstract ItemStack getMainHandStack();
 
-	protected LivingEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
-        super();
-    }
-
-    @Inject(method = "canDisableShield", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
     public void trinkets$disableshield(CallbackInfoReturnable<Boolean> cir) {
         if (this.getMainHandStack().getItem() instanceof QuartziteHammerItem) {
             cir.setReturnValue(true);

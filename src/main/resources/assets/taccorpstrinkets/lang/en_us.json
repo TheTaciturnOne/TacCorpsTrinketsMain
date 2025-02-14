@@ -1,4 +1,5 @@
 {
+  "item.taccorpstrinkets.netherite_slag": "Netherite Slag",
   "item.taccorpstrinkets.prismatic_quartz_shard": "Prismatic Quartz Shard",
   "item.taccorpstrinkets.quartzite": "Quartzite",
   "item.taccorpstrinkets.quartzite_relocator": "Quartzite Relocator",
@@ -13,6 +14,7 @@
   "block.taccorpstrinkets.large_quartz_crystal_cluster": "Large Quartz Crystal Cluster",
   "block.taccorpstrinkets.medium_quartz_crystal_cluster": "Medium Quartz Crystal Cluster",
   "block.taccorpstrinkets.small_quartz_crystal_cluster": "Small Quartz Crystal Cluster",
+  "block.taccorpstrinkets.prismatic_quartz_crystal": "Prismatic Quartz Block",
   "block.taccorpstrinkets.quartz_glass": "Quartz Glass",
   "block.taccorpstrinkets.quartz_glass_pane": "Quartz Glass Pane",
   "block.taccorpstrinkets.engraved_quartz_block": "Engraved Quartz Block",
@@ -29,19 +31,34 @@
   "block.taccorpstrinkets.tac_plushie": "Tac Plushie",
 
   "subtitles.taccorpstrinkets.tacplush_booped": "Tac Plushie booped",
+  "subtitles.taccorpstrinkets.tacplush_hit": "Tac Plushie collides",
   "subtitles.taccorpstrinkets.hammer_slammed": "Quartzite Hammer slams",
   "subtitles.taccorpstrinkets.hammer_throw": "Quartzite Hammer flies",
   "subtitles.taccorpstrinkets.hammer_shockwave": "Quartzite Hammer thunders",
+  "subtitles.taccorpstrinkets.hammer_whir": "Quartzite Hammer launches player",
+  "subtitles.taccorpstrinkets.hammer_powerslam": "Quartzite Hammer lands massive hit",
+  "subtitles.taccorpstrinkets.hammer_shatter": "Quartzite Hammer shatters",
+  "subtitles.taccorpstrinkets.prismatic_hum": "Prismatic Quartz hums",
+
   "itemGroup.taccorpstrinkets.taccorp_trinkets": "Taccorp Trinkets 2.0",
+
   "effect.taccorpstrinkets.stunned": "Stunned",
-  "death.attack.hammer_throw": "%1$s was clobbered from afar by %2$s",
-  "death.attack.hammer_throw.item": "%1$s was clobbered from afar by %2$s with %3$s",
+
+  "death.attack.hammer_throw": "%1$s took a hammer to the face from %2$s",
+  "death.attack.hammer_throw.item": "%1$s took a hammer to the face from %2$s named %3$s",
   "death.attack.hammer_shockwave": "%1$s felt the force of the blast",
   "death.attack.hammer_shockwave.player": "%1$s felt the force of the blast whilst trying to escape %2$s",
+  "death.attack.hammer_powerslam": "%1$s was flattened",
+  "death.attack.hammer_powerslam.player": "%1$s was flattened by %2$s",
+
   "enchantment.taccorpstrinkets.stunning": "Stunning",
   "enchantment.taccorpstrinkets.flinging": "Flinging",
   "enchantment.taccorpstrinkets.slamming": "Slamming",
-  "enchantment.taccorpstrinkets.stunning.desc": "Stuns mobs and players for an extremely short amount of time. Mobs will untarget their attacker. Players will lose the ability to use their mouse and keyboard.",
-  "enchantment.taccorpstrinkets.flinging.desc": "Allows the hammer to be thrown, dealing around the same amount of damage.",
-  "enchantment.taccorpstrinkets.slamming.desc": "When right clicked on the ground, the hammer will create a shockwave to push back and damage entities."
+  "enchantment.taccorpstrinkets.vaulting": "Vaulting",
+  "enchantment.taccorpstrinkets.boosting": "Boosting",
+  "enchantment.taccorpstrinkets.stunning.desc": "Stuns mobs and players for a short amount of time.",
+  "enchantment.taccorpstrinkets.flinging.desc": "Allows the hammer to be thrown for ranged combat.",
+  "enchantment.taccorpstrinkets.slamming.desc": "Adds extra damage to attacks depending on the height fallen.",
+  "enchantment.taccorpstrinkets.vaulting.desc": "When released, the hammer will launch the player upwards and create a shockwave that damages surroundings.",
+  "enchantment.taccorpstrinkets.boosting.desc": "Gives the hammer the ability to boost players a short amount in a certain direction"
 }

@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "taccorpstrinkets:netherite_slag"
+    },
+    "title": "#1 Streamer Jsclagg",
+    "description": "Turn a Netherite Ingot into melted butter",
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true
+  },
+  "parent": "taccorpstrinkets:taccorpstrinkets/root",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "taccorpstrinkets:netherite_slag"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

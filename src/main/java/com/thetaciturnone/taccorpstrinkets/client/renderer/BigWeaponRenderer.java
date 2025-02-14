@@ -1,4 +1,4 @@
-package com.thetaciturnone.taccorpstrinkets.client.render.item;
+package com.thetaciturnone.taccorpstrinkets.client.renderer;
 
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;

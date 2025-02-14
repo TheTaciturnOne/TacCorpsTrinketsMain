@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "taccorpstrinkets:block/natural_quartz_crystal"
+  }
+}

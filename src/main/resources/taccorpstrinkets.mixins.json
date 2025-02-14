@@ -5,17 +5,20 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EntityNavigationMixin",
-    "MobEntityMixin",
-    "LivingEntityMixin",
-    "PlayerEntityFromLivingEntityMixin",
     "HeadFeatureRendererMixin",
-    "NoteBlockMixin"
+    "ItemEntityMixin",
+    "LivingEntityMixin",
+    "MobEntityMixin",
+    "NoteBlockMixin",
+    "PlayerEntityFromLivingEntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
     "HeadFeatureRendererMixin",
     "ItemRendererMixin",
+    "KeyboardMixin",
     "TitleScreenMixin",
-    "KeyboardMixin"
+    "TridentRiptideFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

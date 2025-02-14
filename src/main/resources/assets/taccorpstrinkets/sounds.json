@@ -2,7 +2,13 @@
   "tacplush_booped": {
     "subtitle": "subtitles.taccorpstrinkets.tacplush_booped",
     "sounds": [
-      "taccorpstrinkets:tac_plushie_noise"
+      "taccorpstrinkets:tac_plushie_boop"
+    ]
+  },
+  "tacplush_hit": {
+    "subtitle": "subtitles.taccorpstrinkets.tacplush_hit",
+    "sounds": [
+      "taccorpstrinkets:tac_plushie_collide"
     ]
   },
   "hammer_slammed": {
@@ -28,6 +34,68 @@
     "subtitle": "subtitles.taccorpstrinkets.hammer_shockwave",
     "sounds": [
       "taccorpstrinkets:hammer_shockwave"
+    ]
+  },
+  "hammer_whir": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_whir",
+    "sounds": [
+      "taccorpstrinkets:hammer_whir"
+    ]
+  },
+  "hammer_powerslam": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_powerslam",
+    "sounds": [
+      "taccorpstrinkets:hammer_powerslam"
+    ]
+  },
+  "hammer_shatter": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_shatter",
+    "sounds": [
+      "taccorpstrinkets:hammer_shatter"
+    ]
+  },
+  "quartz_crystal_break": {
+    "sounds": [
+      "taccorpstrinkets:quartz_crystal_break1",
+      "taccorpstrinkets:quartz_crystal_break2",
+      "taccorpstrinkets:quartz_crystal_break3",
+      "taccorpstrinkets:quartz_crystal_break4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "quartz_crystal_fall": {
+    "sounds": [
+      "taccorpstrinkets:quartz_crystal_place1",
+      "taccorpstrinkets:quartz_crystal_place2"
+    ]
+  },
+  "quartz_crystal_hit": {
+    "sounds": [
+      "taccorpstrinkets:quartz_crystal_place1",
+      "taccorpstrinkets:quartz_crystal_place2"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "quartz_crystal_place": {
+    "sounds": [
+      "taccorpstrinkets:quartz_crystal_place1",
+      "taccorpstrinkets:quartz_crystal_place2"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "quartz_crystal_step": {
+    "sounds": [
+      "taccorpstrinkets:quartz_crystal_break1",
+      "taccorpstrinkets:quartz_crystal_break2",
+      "taccorpstrinkets:quartz_crystal_break3",
+      "taccorpstrinkets:quartz_crystal_break4"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "prismatic_hum": {
+    "subtitle": "subtitles.taccorpstrinkets.prismatic_hum",
+    "sounds": [
+      "taccorpstrinkets:prismatic_hum"
     ]
   }
 }

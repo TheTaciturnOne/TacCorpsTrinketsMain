@@ -2,6 +2,7 @@ package com.thetaciturnone.taccorpstrinkets.registries;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
+import com.thetaciturnone.taccorpstrinkets.entity.ThrownTacEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -11,9 +12,11 @@ import net.minecraft.util.registry.Registry;
 
 public class TacEntities {
 	public static EntityType<ThrownHammerEntity> THROWN_HAMMER;
+	public static EntityType<ThrownTacEntity> THROWN_TAC;
 
 	public static void init() {
 		THROWN_HAMMER = register("thrown_hammer", createEntityType(ThrownHammerEntity::new));
+		THROWN_TAC = register("thrown_tac", createEntityType(ThrownTacEntity::new));
 	}
 
 	private static <T extends Entity> EntityType<T> register(String s, EntityType<T> bombEntityType) {

@@ -1,14 +1,9 @@
 package com.thetaciturnone.taccorpstrinkets.enchantments;
 
-import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
-import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
-import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
+import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 
 public class SlammingEnchantment extends Enchantment {
@@ -26,6 +21,6 @@ public class SlammingEnchantment extends Enchantment {
 
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		return stack.getItem() instanceof QuartziteHammerItem;
+		return (stack.isOf(TacItems.QUARTZITE_HAMMER) || stack.isOf(TacItems.SHATTERED_QUARTZITE_HAMMER));
 	}
 }

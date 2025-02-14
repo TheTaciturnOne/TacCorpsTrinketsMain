@@ -1,7 +1,7 @@
 package com.thetaciturnone.taccorpstrinkets.enchantments;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
-import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
+import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
@@ -21,18 +21,17 @@ public class StunningEnchantment extends Enchantment {
 		return 1;
 	}
 
-
-
-	@Override
-	public boolean isAcceptableItem(ItemStack stack) {
-		return stack.getItem() instanceof QuartziteHammerItem;
-	}
 	@Override
 	public void onTargetDamaged(LivingEntity user, Entity target, int level) {
 		if(target instanceof LivingEntity) {
-			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(TacCorpsTrinkets.STUNNED, 6, 1, false, false));
+			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(TacCorpsTrinkets.STUNNED, 15, 1, false, false));
 		}
 
 		super.onTargetDamaged(user, target, level);
+	}
+
+	@Override
+	public boolean isAcceptableItem(ItemStack stack) {
+		return (stack.isOf(TacItems.QUARTZITE_HAMMER) || stack.isOf(TacItems.SHATTERED_QUARTZITE_HAMMER));
 	}
 }

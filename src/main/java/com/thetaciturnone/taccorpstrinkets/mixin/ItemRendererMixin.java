@@ -23,7 +23,7 @@ final class ItemRendererMixin {
     @Final
     private ItemModels models;
 
-	@Inject(method = "getHeldItemModel", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
 	public void hammer_getHeldItemModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
         if (stack.getItem() instanceof QuartziteHammerItem) {
             BakedModel bakedModel = models.getModelManager().getModel(new ModelIdentifier("minecraft:trident_in_hand#inventory"));

@@ -1,7 +1,5 @@
 package com.thetaciturnone.taccorpstrinkets.entity;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
@@ -16,11 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
-import org.joml.Quaternionf;
-
-import static java.lang.Math.PI;
 
 @Environment(EnvType.CLIENT)
 public class ThrownHammerEntityRenderer extends EntityRenderer<ThrownHammerEntity> {
@@ -37,7 +31,7 @@ public class ThrownHammerEntityRenderer extends EntityRenderer<ThrownHammerEntit
 		matrixStack.push();
 		ItemStack itemStack = entityIn.getItem();
 		float age = entityIn.getAgeException();
-		BakedModel ibakedmodel = this.itemRenderer.getHeldItemModel(itemStack, entityIn.world, null, 1);
+		BakedModel ibakedmodel = this.itemRenderer.getModel(itemStack, entityIn.world, null, 1);
 		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(MathHelper.lerp(tickDelta, entityIn.prevYaw, entityIn.getYaw()) - 270.0f));
 		matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(MathHelper.lerp(tickDelta, entityIn.prevPitch, entityIn.getPitch()) + 135.0f * age));
 		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0f));

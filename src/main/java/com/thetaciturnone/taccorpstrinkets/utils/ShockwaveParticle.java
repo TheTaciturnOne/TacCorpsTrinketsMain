@@ -1,28 +1,32 @@
 package com.thetaciturnone.taccorpstrinkets.utils;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import net.minecraft.util.math.Vec3f;
 
 
 @Environment(EnvType.CLIENT)
 public class ShockwaveParticle extends SpriteBillboardParticle {
     private final SpriteProvider sprites;
-    private static final Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
+	private float prevAlpha;
+	private final float alphaDecrease;
+    private static final Quaternion QUATERNION = new Quaternion(0F, -0.7F, 0.7F, 0F);
 
     ShockwaveParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
 		super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
-		this.scale = 5.5F;
+		this.scale = 8f;
+		this.alpha = 1;
 		this.setVelocity(0D, 0D, 0D);
-		this.maxAge = 15;
+		this.maxAge = 35;
+		this.alphaDecrease = 1F / Math.max(this.maxAge, 1.0F);
 		this.sprites = sprites;
 		this.setSpriteForAge(sprites);
     }
@@ -35,23 +39,23 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
         float y = (float) (MathHelper.lerp(ticks, this.prevPosY, this.y) - vec3.getY());
         float z = (float) (MathHelper.lerp(ticks, this.prevPosZ, this.z) - vec3.getZ());
 
-        Vector3f[] vector3fs = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
+        Vec3f[] alphas = new Vec3f[]{new Vec3f(-1.0F, -1.0F, 0.0F), new Vec3f(-1.0F, 1.0F, 0.0F), new Vec3f(1.0F, 1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F)};
         // Additional vertices for underside faces
-        Vector3f[] vector3fsBottom = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, -1.0F, 0.0F)};
+		Vec3f[] alphasBottom = new Vec3f[]{new Vec3f(-1.0F, -1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F), new Vec3f(-1.0F, -1.0F, 0.0F)};
 
         float f4 = this.getSize(ticks);
 
         for (int i = 0; i < 4; ++i) {
-            Vector3f vector3f = vector3fs[i];
-            vector3f.rotate(QUATERNION);
-            vector3f.mul(f4);
-            vector3f.add(x, y, z);
+			Vec3f alpha = alphas[i];
+            alpha.rotate(QUATERNION);
+            alpha.scale(f4);
+            alpha.add(x, y, z);
 
             // Create additional vertices for underside faces
-            Vector3f vector3fBottom = vector3fsBottom[i];
-            vector3fBottom.rotate(QUATERNION);
-            vector3fBottom.mul(f4);
-            vector3fBottom.add(x, y - 0.1F, z); // Slightly lower to avoid z-fighting
+			Vec3f alphaBottom = alphasBottom[i];
+            alphaBottom.rotate(QUATERNION);
+            alphaBottom.scale(f4);
+            alphaBottom.add(x, y - 0.1F, z); // Slightly lower to avoid z-fighting
         }
 
         float f7 = this.getMinU();
@@ -61,16 +65,16 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
         int light = this.getBrightness(ticks);
 
         // Render the top faces
-        buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).uv(f8, f6).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
-        buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).uv(f8, f5).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
-        buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).uv(f7, f5).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
-        buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).uv(f7, f6).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
+        buffer.vertex(alphas[0].getX(), alphas[0].getY(), alphas[0].getZ()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[1].getX(), alphas[1].getY(), alphas[1].getZ()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[2].getX(), alphas[2].getY(), alphas[2].getZ()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[3].getX(), alphas[3].getY(), alphas[3].getZ()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
 
         // Render the underside faces
-        buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).uv(f7, f6).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
-        buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).uv(f7, f5).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
-        buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).uv(f8, f5).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
-        buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).uv(f8, f6).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();
+        buffer.vertex(alphas[3].getX(), alphas[3].getY(), alphas[3].getZ()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[2].getX(), alphas[2].getY(), alphas[2].getZ()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[1].getX(), alphas[1].getY(), alphas[1].getZ()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[0].getX(), alphas[0].getY(), alphas[0].getZ()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
     }
 
     @Override
@@ -78,10 +82,18 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 
+	public float getSize(float tickDelta) {
+		return this.scale * MathHelper.clamp(((float)this.age + tickDelta) / (float)this.maxAge * 0.75F, 0.0F, 1.0F);
+	}
+
     @Override
     public void tick() {
         super.tick();
-        this.setSpriteForAge(this.sprites);
+		this.prevAlpha = alpha;
+		this.setSpriteForAge(sprites);
+		if(this.alpha > 0.0F){
+			this.alpha = Math.max(this.alpha - alphaDecrease, 0.0F);
+		}
     }
 
     @Environment(EnvType.CLIENT)

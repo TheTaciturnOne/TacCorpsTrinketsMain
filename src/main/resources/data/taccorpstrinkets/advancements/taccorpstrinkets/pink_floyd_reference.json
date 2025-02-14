@@ -4,12 +4,12 @@
       "item": "taccorpstrinkets:quartzite"
     },
     "title": "Sparkle On! It's Quarztite",
-    "description": "Combine Prismatic Quartz Shards and Netherite Ingots for a durable new material",
+    "description": "Melt together some Netherite with a Quartz Crystal Growth",
     "frame": "task",
     "show_toast": true,
     "annouce_to_chat": true
   },
-  "parent": "taccorpstrinkets:taccorpstrinkets/root",
+  "parent": "taccorpstrinkets:taccorpstrinkets/jslag",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",

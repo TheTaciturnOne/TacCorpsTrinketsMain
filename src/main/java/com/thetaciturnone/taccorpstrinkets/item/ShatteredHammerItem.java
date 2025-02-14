@@ -2,10 +2,13 @@ package com.thetaciturnone.taccorpstrinkets.item;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
+import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
 import com.thetaciturnone.taccorpstrinkets.utils.TaccorpsUtil;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -13,12 +16,16 @@ import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,13 +35,38 @@ public class ShatteredHammerItem extends PickaxeItem {
     public ShatteredHammerItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
         super(toolMaterial, attackDamage, attackSpeed, settings);
     }
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        target.damageShield(3);
+	@Override
+	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		target.damageShield(3);
 		spawnHammerSlamParticles(target);
+		if (attacker.fallDistance > 1.5F && !attacker.isFallFlying() && TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.SLAMMING, attacker)) {
+			float h = attacker.fallDistance;
+			float i;
+			if (h <= 5.0f){
+				i = h + 1;
+			} else if (h <= 10.0f){
+				i = h + 2;
+			}
+			else if (h < 25.0f){
+				i = h + 4;
+			}
+			else if (h >= 25.0f){
+				i = h + 5;
+			} else i = h;
+			target.damage(TacDamage.HAMMER_POWERSALM, i);
+			target.getWorld().playSound(null, target.getX(), target.getY(), target.getZ(), TacCorpsTrinkets.HAMMER_POWERSLAM, SoundCategory.NEUTRAL, 2.0f, 1.0f);
+			spawnHammerWaveParticle(target);
+			attacker.addVelocity(0, 1.2, 0);
+			attacker.velocityModified = true;
+		}
 		playHammerSlamSound(target);
 		return super.postHit(stack, target, attacker);
-    }
+	}
+	public void spawnHammerWaveParticle(LivingEntity player) {
+		if (player.world instanceof ServerWorld) {
+			((ServerWorld)player.world).spawnParticles(TacCorpsTrinkets.HAMMER_WAVE, player.getX(), player.getBodyY(0.5), player.getZ() , 1, 0, 0.0, 0, 0.0);
+		}
+	}
 
 	public void spawnHammerSlamParticles(LivingEntity player) {
 		double deltaX = -MathHelper.sin((float) (double) player.getYaw() * 0.017453292F);
@@ -65,12 +97,15 @@ public class ShatteredHammerItem extends PickaxeItem {
 		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.FLINGING, user)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
-		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.SLAMMING, user)) {
+		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.VAULTING, user)) {
+			user.setCurrentHand(hand);
+			return TypedActionResult.consume(itemStack);
+		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.BOOSTING, user)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
 		}
 		else return TypedActionResult.fail(itemStack);
-    }
+	}
 
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		if (user instanceof PlayerEntity playerEntity) {
@@ -82,31 +117,84 @@ public class ShatteredHammerItem extends PickaxeItem {
 							p.sendToolBreakStatus(user.getActiveHand());
 						});
 						ThrownHammerEntity tridentEntity = new ThrownHammerEntity(world, playerEntity, stack);
-						tridentEntity.setProperties(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F * 0.5F, 1.0F);
+						tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F * 0.5F, 1.0F);
 						if (playerEntity.getAbilities().creativeMode) {
-						tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+							tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 						}
 
 						world.spawnEntity(tridentEntity);
 						world.playSoundFromEntity(null, tridentEntity, TacCorpsTrinkets.HAMMER_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
 						if (!playerEntity.getAbilities().creativeMode) {
-						playerEntity.getInventory().removeOne(stack);
+							playerEntity.getInventory().removeOne(stack);
 						}
 					}
 				}
-			} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.SLAMMING, user)) {
+			} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.VAULTING, user)) {
 				int i = this.getMaxUseTime(stack) - remainingUseTicks;
 				if (i >= 4) {
-					((PlayerEntity) user).getItemCooldownManager().set(this, 100);
+					((PlayerEntity) user).getItemCooldownManager().set(this, 20);
 					world.getOtherEntities(user, user.getBoundingBox().expand(4f, 2f, 4f)).forEach(e -> {
 						if (e instanceof LivingEntity living) {
 							living.takeKnockback(1, user.getX() - living.getX(), user.getZ() - living.getZ());
 						}
 					});
 					world.getOtherEntities(user, user.getBoundingBox().expand(4f, 2f, 4f).offset(0f, -0.5f, 0f)).forEach(e ->
-						e.damage(TacDamage.HAMMER_SHOCKWAVE, 4));
+						e.damage(TacDamage.HAMMER_SHOCKWAVE, 8));
+					if(!world.isClient)
+					{
+						for (int y = 0; y <= 3; y++)
+						{
+							for (int x = -3; x <= 3; x++)
+							{
+								for (int z = -3; z <= 3; z++)
+								{
+									BlockPos pos = playerEntity.getBlockPos().add(new Vec3i(x, y, z));
+									if(world.getBlockState(pos).isOf(Blocks.GLASS_PANE)) {
+										world.breakBlock(pos, false, user);
+									}
+									if(world.getBlockState(pos).isOf(Blocks.GLASS)) {
+										world.breakBlock(pos, false, user);
+									}
+									if(world.getBlockState(pos).isOf(TacBlocks.QUARTZ_GLASS)) {
+										world.breakBlock(pos, false, user);
+									}
+									if(world.getBlockState(pos).isOf(TacBlocks.QUARTZ_GLASS_PANE)) {
+										world.breakBlock(pos, false, user);
+									}
+
+								}
+							}
+						}
+					}
 					world.playSound(null, user.getX(), user.getY(), user.getZ(), TacCorpsTrinkets.HAMMER_SHOCKWAVE, SoundCategory.NEUTRAL, 2.0f, 1.0f);
-					world.addParticle(TacCorpsTrinkets.HAMMER_WAVE, user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
+					world.addParticle(TacCorpsTrinkets.HAMMER_WAVE, user.getX(), user.getY() + 0.2, user.getZ(), 0, 0, 0);
+					playerEntity.addVelocity(0, 1, 0);
+					user.velocityModified = true;
+				}
+			}
+			else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.BOOSTING, user)) {
+				int i = this.getMaxUseTime(stack) - remainingUseTicks;
+				if (i >= 4) {
+					((PlayerEntity) user).getItemCooldownManager().set(this, 30);
+					float f = playerEntity.getYaw();
+					float g = playerEntity.getPitch();
+					float h = -MathHelper.sin(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
+					float k = -MathHelper.sin(g * 0.017453292F);
+					float l = MathHelper.cos(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
+					float m = MathHelper.sqrt(h * h + k * k + l * l);
+					float n = 3.0F * ((1.0F + (float)2.5) / 4.0F);
+					h *= n / m;
+					k *= n / m;
+					l *= n / m;
+					playerEntity.addVelocity(h, k, l);
+					playerEntity.useRiptide(20);
+					if (playerEntity.isOnGround()) {
+						playerEntity.move(MovementType.SELF, new Vec3d(0.0, 1.1999999284744263, 0.0));
+					}
+
+					SoundEvent soundEvent = TacCorpsTrinkets.HAMMER_WHIRRING;
+
+					world.playSoundFromEntity(null, playerEntity, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
 				}
 			}
 		}

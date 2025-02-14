@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "taccorpstrinkets",
+  "version": "${version}",
+
+  "name": "TacCorp's Trinkets",
+  "description": "Taccorp's all-new Tac merch and weapons! NOW ON FABRIC!",
+  "authors": [
+    "TheTaciturnOne - Owner, Coder",
+    "HollowedWanderer - Texturer"
+  ],
+  "contact": {
+    "My Twitch": "https://www.twitch.tv/thetaciturnone",
+    "My Discord": "https://discord.gg/DZPkZRfCwz"
+  },
+
+  "license": "ARR License",
+  "icon": "assets/taccorpstrinkets/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets"
+    ],
+    "client": [
+      "com.thetaciturnone.taccorpstrinkets.TacCorpsTrinketsClient"
+    ]
+  },
+  "mixins": [
+    "taccorpstrinkets.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17",
+    "trinkets": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
