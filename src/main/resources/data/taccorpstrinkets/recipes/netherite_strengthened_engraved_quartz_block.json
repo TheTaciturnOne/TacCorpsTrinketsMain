@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:smithing_trim",
-  "template": {
-    "item": "taccorpstrinkets:prismatic_quartz_shard"
-  },
-  "base": {
-    "item": "taccorpstrinkets:engraved_quartz_block"
-  },
-  "addition": {
-    "item": "taccorpstrinkets:netherite_frame"
-  },
-  "result": {
-    "item": "taccorpstrinkets:netherite_strengthened_engraved_quartz_block"
-  }
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "taccorpstrinkets:engraved_quartz_block"
+        },
+        {
+            "item": "taccorpstrinkets:netherite_frame"
+        }
+    ],
+    "result": {
+        "item": "taccorpstrinkets:netherite_strengthened_engraved_quartz_block",
+        "count": 1
+    }
 }

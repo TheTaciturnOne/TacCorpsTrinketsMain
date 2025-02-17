@@ -88,8 +88,8 @@ public class QuartziteHammerItem extends PickaxeItem {
 			}
 			playerEntity.setStackInHand(playerEntity.getActiveHand(), shatteredHammer);
 			world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), TacCorpsTrinkets.HAMMER_SHATTER, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-			return ActionResult.success(world.isClient);
-		} else return ActionResult.FAIL;
+			return ActionResult.success(world.isClient());
+		} else return super.useOnBlock(context);
 	}
 
 	public void spawnHammerSlamParticles(LivingEntity player) {
@@ -133,7 +133,7 @@ public class QuartziteHammerItem extends PickaxeItem {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
 		}
-		else return TypedActionResult.fail(itemStack);
+		else return super.use(world, user, hand);
     }
 
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {

@@ -104,7 +104,7 @@ public class ShatteredHammerItem extends PickaxeItem {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
 		}
-		else return TypedActionResult.fail(itemStack);
+		else return super.use(world, user, hand);
 	}
 
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {

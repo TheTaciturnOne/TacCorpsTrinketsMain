@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:smithing_trim",
-  "template": {
-    "item": "taccorpstrinkets:prismatic_quartz_shard"
-  },
-  "base": {
-    "item": "taccorpstrinkets:quartz_glass"
-  },
-  "addition": {
-    "item": "taccorpstrinkets:netherite_frame"
-  },
-  "result": {
-    "item": "taccorpstrinkets:netherite_strengthened_quartz_glass"
-  }
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "taccorpstrinkets:quartz_glass"
+        },
+        {
+            "item": "taccorpstrinkets:netherite_frame"
+        }
+    ],
+    "result": {
+        "item": "taccorpstrinkets:netherite_strengthened_quartz_glass",
+        "count": 1
+    }
 }

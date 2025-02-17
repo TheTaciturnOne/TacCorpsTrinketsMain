@@ -18,7 +18,8 @@
     "KeyboardMixin",
     "TridentRiptideFeatureRendererMixin",
     "ItemRendererAccessor",
-    "SplashTextResourceSupplierMixin"
+    "SplashTextResourceSupplierMixin",
+    "HeldItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
