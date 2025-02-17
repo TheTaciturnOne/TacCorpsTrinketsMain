@@ -8,10 +8,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.*;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -34,28 +33,20 @@ public class PrismaticQuartzBlockEntity extends BlockEntity {
 				}
 			}
 			Box box = new Box(pos).expand(10);
-			List<Entity> mobs = world.getOtherEntities(null, box);
-			for (Entity mob : mobs) {
-				if (mob instanceof LivingEntity entity) {
-					if (entity instanceof ZombieEntity
-						|| entity instanceof SkeletonEntity
-						|| entity instanceof ZoglinEntity
-						|| entity instanceof ZombifiedPiglinEntity
-						|| entity instanceof ZombieVillagerEntity) {
-						if (l % 80L == 0L) {
-							entity.setFireTicks(40);
-						}
+			for (LivingEntity entity : world.getNonSpectatingEntities(LivingEntity.class, box)) {
+				if (entity.isUndead()) {
+					if (l % 80 == 0) {
+						entity.setFireTicks(40);
 					}
-					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 100, 0, true, true));
-					entity.world.addParticle(ParticleTypes.END_ROD,
-							entity.getParticleX(0.5),
-							entity.getRandomBodyY() - 0.25,
-							entity.getParticleZ(0.5),
-							0,
-							0,
-							0);
-
 				}
+				entity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 100, 0, true, true));
+				entity.getWorld().addParticle(ParticleTypes.END_ROD,
+					entity.getParticleX(0.5),
+					entity.getRandomBodyY() - 0.25,
+					entity.getParticleZ(0.5),
+					0,
+					0,
+					0);
 			}
 		}
 	}

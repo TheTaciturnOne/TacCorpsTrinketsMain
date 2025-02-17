@@ -10,15 +10,15 @@
     "LivingEntityMixin",
     "MobEntityMixin",
     "NoteBlockMixin",
-    "PlayerEntityFromLivingEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityFromLivingEntityMixin"
   ],
   "client": [
     "HeadFeatureRendererMixin",
     "ItemRendererMixin",
     "KeyboardMixin",
-    "TitleScreenMixin",
-    "TridentRiptideFeatureRendererMixin"
+    "TridentRiptideFeatureRendererMixin",
+    "ItemRendererAccessor",
+    "SplashTextResourceSupplierMixin"
   ],
   "injectors": {
     "defaultRequire": 1

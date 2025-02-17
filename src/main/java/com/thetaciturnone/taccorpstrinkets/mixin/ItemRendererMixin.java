@@ -1,41 +1,34 @@
 package com.thetaciturnone.taccorpstrinkets.mixin;
 
+import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
 import com.thetaciturnone.taccorpstrinkets.item.ShatteredHammerItem;
-import net.minecraft.client.render.item.ItemModels;
+import com.thetaciturnone.taccorpstrinkets.item.SilentMaskItem;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ItemRenderer.class)
-final class ItemRendererMixin {
-    @Shadow
-    @Final
-    private ItemModels models;
+public abstract class ItemRendererMixin {
 
-	@Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
-	public void hammer_getHeldItemModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
-        if (stack.getItem() instanceof QuartziteHammerItem) {
-            BakedModel bakedModel = models.getModelManager().getModel(new ModelIdentifier("minecraft:trident_in_hand#inventory"));
-            ClientWorld clientWorld = world instanceof ClientWorld ? (ClientWorld) world : null;
-            BakedModel bakedModel2 = bakedModel.getOverrides().apply(bakedModel, stack, clientWorld, entity, seed);
-            cir.setReturnValue(bakedModel2 == null ? this.models.getModelManager().getMissingModel() : bakedModel2);
-        }
-		if (stack.getItem() instanceof ShatteredHammerItem) {
-			BakedModel bakedModel = models.getModelManager().getModel(new ModelIdentifier("minecraft:trident_in_hand#inventory"));
-			ClientWorld clientWorld = world instanceof ClientWorld ? (ClientWorld) world : null;
-			BakedModel bakedModel2 = bakedModel.getOverrides().apply(bakedModel, stack, clientWorld, entity, seed);
-			cir.setReturnValue(bakedModel2 == null ? this.models.getModelManager().getMissingModel() : bakedModel2);
+	@ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At(value = "HEAD"), argsOnly = true)
+	public BakedModel trinkets$largeHammerModel(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+		if (stack.getItem() instanceof QuartziteHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
+			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "quartzite_hammer_handheld", "inventory"));
 		}
+		else if (stack.getItem() instanceof ShatteredHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
+			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "shattered_quartzite_hammer_handheld", "inventory"));
+		}
+		else if (stack.getItem() instanceof SilentMaskItem && renderMode == ModelTransformationMode.HEAD) {
+			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "mask_of_silence_worn", "inventory"));
+		}
+		return value;
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 
 public class StunningEnchantment extends Enchantment {
 
@@ -23,10 +24,9 @@ public class StunningEnchantment extends Enchantment {
 
 	@Override
 	public void onTargetDamaged(LivingEntity user, Entity target, int level) {
-		if(target instanceof LivingEntity) {
-			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(TacCorpsTrinkets.STUNNED, 15, 1, false, false));
+		if(target instanceof LivingEntity targetEntity) { // TODO: add overlay or some visual indicator of stun that isn't the effect icon?
+			targetEntity.addStatusEffect(new StatusEffectInstance(TacCorpsTrinkets.STUNNED, MathHelper.clamp(15 * level, 15, 150), 0, false, false));
 		}
-
 		super.onTargetDamaged(user, target, level);
 	}
 

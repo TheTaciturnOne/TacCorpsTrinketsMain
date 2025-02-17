@@ -11,6 +11,12 @@
       "taccorpstrinkets:tac_plushie_collide"
     ]
   },
+  "tacplush_scream": {
+    "subtitle": "subtitles.taccorpstrinkets.tacplush_scream",
+    "sounds": [
+      "taccorpstrinkets:tac_plushie_scream"
+    ]
+  },
   "hammer_slammed": {
     "subtitle": "subtitles.taccorpstrinkets.hammer_slammed",
     "sounds": [

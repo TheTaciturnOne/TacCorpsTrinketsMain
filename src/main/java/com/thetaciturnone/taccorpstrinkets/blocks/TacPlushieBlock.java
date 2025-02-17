@@ -2,7 +2,6 @@ package com.thetaciturnone.taccorpstrinkets.blocks;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.blocks.entities.TacPlushieBlockEntity;
-import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -31,18 +30,14 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class TacPlushieBlock extends BlockWithEntity implements Waterloggable {
-	public static BooleanProperty WATERLOGGED;
+	public static BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 
 	private static final VoxelShape SHAPE =
 		java.util.Optional.of(Block.createCuboidShape(3, 0, 2.5, 13, 15, 13.5)).get();
-    public static final DirectionProperty FACING;
     public TacPlushieBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
-    }
-    static {
-        FACING = HorizontalFacingBlock.FACING;
-		WATERLOGGED = Properties.WATERLOGGED;
     }
 
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
@@ -51,7 +46,7 @@ public class TacPlushieBlock extends BlockWithEntity implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
 		BlockPos blockPos = ctx.getBlockPos();
 		World world = ctx.getWorld();
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(WATERLOGGED, world.getFluidState(blockPos).getFluid() == Fluids.WATER);
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(WATERLOGGED, world.getFluidState(blockPos).getFluid() == Fluids.WATER);
     }
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
@@ -59,7 +54,7 @@ public class TacPlushieBlock extends BlockWithEntity implements Waterloggable {
 
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return state;
 	}

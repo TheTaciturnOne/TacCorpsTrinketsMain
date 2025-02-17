@@ -8,13 +8,13 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
 public class ThrownHammerEntityRenderer extends EntityRenderer<ThrownHammerEntity> {
@@ -31,11 +31,11 @@ public class ThrownHammerEntityRenderer extends EntityRenderer<ThrownHammerEntit
 		matrixStack.push();
 		ItemStack itemStack = entityIn.getItem();
 		float age = entityIn.getAgeException();
-		BakedModel ibakedmodel = this.itemRenderer.getModel(itemStack, entityIn.world, null, 1);
-		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(MathHelper.lerp(tickDelta, entityIn.prevYaw, entityIn.getYaw()) - 270.0f));
-		matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(MathHelper.lerp(tickDelta, entityIn.prevPitch, entityIn.getPitch()) + 135.0f * age));
-		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0f));
-		itemRenderer.renderItem(itemStack, ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND, false, matrixStack, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, ibakedmodel);
+		BakedModel ibakedmodel = this.itemRenderer.getModel(itemStack, entityIn.getWorld(), null, 1);
+		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(tickDelta, entityIn.prevYaw, entityIn.getYaw()) - 270.0f));
+		matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.lerp(tickDelta, entityIn.prevPitch, entityIn.getPitch()) + 135.0f * age));
+		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0f));
+		itemRenderer.renderItem(itemStack, ModelTransformationMode.THIRD_PERSON_RIGHT_HAND, false, matrixStack, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, ibakedmodel);
 		matrixStack.scale(1, 1, 1);
 		matrixStack.translate(0.1f, -0.2f, 0.0f);
 

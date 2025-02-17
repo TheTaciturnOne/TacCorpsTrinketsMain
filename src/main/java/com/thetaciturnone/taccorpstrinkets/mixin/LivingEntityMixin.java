@@ -22,7 +22,7 @@ public abstract class LivingEntityMixin extends Entity {
 	public abstract ItemStack getMainHandStack();
 
 	@Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
-    public void trinkets$disableshield(CallbackInfoReturnable<Boolean> cir) {
+    public void tacCorp$hammerDisablesShield(CallbackInfoReturnable<Boolean> cir) {
         if (this.getMainHandStack().getItem() instanceof QuartziteHammerItem) {
             cir.setReturnValue(true);
         }

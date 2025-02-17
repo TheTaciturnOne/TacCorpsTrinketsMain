@@ -3,16 +3,16 @@ package com.thetaciturnone.taccorpstrinkets.world;
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import net.minecraft.block.Blocks;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
 
 public class TacConfigFeatures {
-	public static final RegistryEntry<ConfiguredFeature<GeodeFeatureConfig, ?>> NATURAL_QUARTZ_GEODE =
+	/*public static final RegistryEntry<ConfiguredFeature<GeodeFeatureConfig, ?>> NATURAL_QUARTZ_GEODE =
             ConfiguredFeatures.register("natural_quartz_geode",
 				Feature.GEODE, new GeodeFeatureConfig(new GeodeLayerConfig(BlockStateProvider.of(Blocks.AIR),
 					BlockStateProvider.of(TacBlocks.QUARTZ_CRYSTAL),
@@ -30,5 +30,5 @@ public class TacConfigFeatures {
 
 	public static void registerConfiguredFeatures() {
 		TacCorpsTrinkets.LOGGER.debug("Spwaming geod " + TacCorpsTrinkets.MOD_ID);
-	}
+	}*/
 }

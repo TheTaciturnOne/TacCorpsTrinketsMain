@@ -8,7 +8,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -66,7 +68,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 				this.setNoClip(true);
 				Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
 				this.setPos(this.getX(), this.getY() + vec3d.y * 0.015, this.getZ());
-				if (this.world.isClient) {
+				if (this.getWorld().isClient()) {
 					this.lastRenderY = this.getY();
 				}
 
@@ -101,14 +103,15 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 		Entity entity = entityHitResult.getEntity();
-		float f = 8.0F;
+		Entity owner = this.getOwner();
+
+		float f = 10.0F;
 		if (entity instanceof LivingEntity livingEntity) {
 			f += EnchantmentHelper.getAttackDamage(this.getItem(), livingEntity.getGroup());
-			((LivingEntity) entity).takeKnockback(1.5, entity.getX() - this.getX(), entity.getZ() - this.getZ() );
+			livingEntity.takeKnockback(1.5, entity.getX() - this.getX(), entity.getZ() - this.getZ());
 		}
 
-		Entity entity2 = this.getOwner();
-		DamageSource damageSource = TacDamage.hammer_throw(this, entity2 == null ? this : entity2);
+		DamageSource damageSource = TacDamage.create(getWorld(), TacDamage.HAMMER_POWERSLAM, this, owner == null ? this : owner);
 		this.dealtDamage = true;
 		SoundEvent soundEvent = TacCorpsTrinkets.HAMMER_SLAMMED;
 		if (entity.damage(damageSource, f)) {
@@ -116,14 +119,11 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 				return;
 			}
 
-			if (entity instanceof LivingEntity) {
-				LivingEntity livingEntity2 = (LivingEntity)entity;
-				if (entity2 instanceof LivingEntity) {
-					EnchantmentHelper.onUserDamaged(livingEntity2, entity2);
-					EnchantmentHelper.onTargetDamaged((LivingEntity)entity2, livingEntity2);
-				}
+			if (entity instanceof LivingEntity target && owner instanceof LivingEntity user) {
+				EnchantmentHelper.onUserDamaged(user, target);
+				EnchantmentHelper.onTargetDamaged(target, user);
 
-				this.onHit(livingEntity2);
+				this.onHit(target);
 			}
 		}
 

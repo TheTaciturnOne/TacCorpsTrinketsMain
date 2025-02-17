@@ -11,13 +11,14 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.Tameable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.*;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -34,6 +35,18 @@ public class QuartziteHammerItem extends PickaxeItem {
     public QuartziteHammerItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
         super(toolMaterial, attackDamage, attackSpeed, settings);
     }
+
+	public static int getStyle(ItemStack stack) {
+		if (stack.getNbt() == null) {
+			return 0;
+		}
+		return stack.getNbt().getInt("style");
+	}
+
+	public static void setStyle(ItemStack stack, int style) {
+		stack.getOrCreateNbt().putInt("style", style);
+	}
+
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         target.damageShield(3);
@@ -52,12 +65,13 @@ public class QuartziteHammerItem extends PickaxeItem {
 			else if (h >= 25.0f){
 				i = h + 5;
 			} else i = h;
-			target.damage(TacDamage.HAMMER_POWERSALM, i);
+			target.damage(TacDamage.create(attacker.getWorld(), TacDamage.HAMMER_POWERSLAM, attacker), i);
 			target.getWorld().playSound(null, target.getX(), target.getY(), target.getZ(), TacCorpsTrinkets.HAMMER_POWERSLAM, SoundCategory.NEUTRAL, 2.0f, 1.0f);
 			spawnHammerWaveParticle(target);
 			attacker.addVelocity(0, 1.2, 0);
 			attacker.velocityModified = true;
-		} playHammerSlamSound(target);
+		}
+		playHammerSlamSound(target);
 		return super.postHit(stack, target, attacker);
     }
 
@@ -68,7 +82,11 @@ public class QuartziteHammerItem extends PickaxeItem {
 		BlockState blockState = world.getBlockState(blockPos);
 		PlayerEntity playerEntity = context.getPlayer();
 		if (blockState.isIn(BlockTags.ANVIL) && Objects.requireNonNull(playerEntity).isSneaking()) {
-			playerEntity.setStackInHand(playerEntity.getActiveHand(), new ItemStack(TacItems.SHATTERED_QUARTZITE_HAMMER));
+			ItemStack shatteredHammer = new ItemStack(TacItems.SHATTERED_QUARTZITE_HAMMER);
+			if (context.getStack().getNbt() != null) { // shattering a hammer will carry over item data like name, durability, and enchantments
+				shatteredHammer.getOrCreateNbt().copyFrom(context.getStack().getNbt());
+			}
+			playerEntity.setStackInHand(playerEntity.getActiveHand(), shatteredHammer);
 			world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), TacCorpsTrinkets.HAMMER_SHATTER, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			return ActionResult.success(world.isClient);
 		} else return ActionResult.FAIL;
@@ -77,19 +95,19 @@ public class QuartziteHammerItem extends PickaxeItem {
 	public void spawnHammerSlamParticles(LivingEntity player) {
 		double deltaX = -MathHelper.sin((float) (double) player.getYaw() * 0.017453292F);
 		double deltaZ = MathHelper.cos((float) (double) player.getYaw() * 0.017453292F);
-		if (player.world instanceof ServerWorld) {
-			((ServerWorld)player.world).spawnParticles(TacCorpsTrinkets.HAMMER_SLAM, player.getX() + deltaX, player.getBodyY(0.5), player.getZ() + deltaZ, 0, deltaX, 0.0, deltaZ, 0.0);
+		if (player.getWorld() instanceof ServerWorld serverWorld) {
+			serverWorld.spawnParticles(TacCorpsTrinkets.HAMMER_SLAM, player.getX() + deltaX, player.getBodyY(0.5), player.getZ() + deltaZ, 0, deltaX, 0.0, deltaZ, 0.0);
 		}
 	}
 	public void spawnHammerWaveParticle(LivingEntity player) {
-		if (player.world instanceof ServerWorld) {
-			((ServerWorld)player.world).spawnParticles(TacCorpsTrinkets.HAMMER_WAVE, player.getX(), player.getBodyY(0.5), player.getZ() , 1, 0, 0.0, 0, 0.0);
+		if (player.getWorld() instanceof ServerWorld serverWorld) {
+			serverWorld.spawnParticles(TacCorpsTrinkets.HAMMER_WAVE, player.getX(), player.getBodyY(0.5), player.getZ() , 1, 0, 0.0, 0, 0.0);
 		}
 	}
 
 	public void playHammerSlamSound(LivingEntity user) {
-		if (user.world instanceof ServerWorld) {
-			user.world.playSound(null, user.getX(), user.getY(), user.getZ(), TacCorpsTrinkets.HAMMER_SLAMMED, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		if (user.getWorld() instanceof ServerWorld serverWorld) {
+			serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TacCorpsTrinkets.HAMMER_SLAMMED, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		}
 	}
 
@@ -123,7 +141,7 @@ public class QuartziteHammerItem extends PickaxeItem {
 			if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.FLINGING, user)) {
 				int i = this.getMaxUseTime(stack) - remainingUseTicks;
 				if (i >= 6) {
-					if (!world.isClient) {
+					if (!world.isClient()) {
 						stack.damage(1, playerEntity, (p) -> {
 							p.sendToolBreakStatus(user.getActiveHand());
 						});
@@ -143,15 +161,15 @@ public class QuartziteHammerItem extends PickaxeItem {
 			} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.VAULTING, user)) {
 				int i = this.getMaxUseTime(stack) - remainingUseTicks;
 				if (i >= 4) {
-					((PlayerEntity) user).getItemCooldownManager().set(this, 75);
-					world.getOtherEntities(user, user.getBoundingBox().expand(4f, 2f, 4f)).forEach(e -> {
-						if (e instanceof LivingEntity living) {
-							living.takeKnockback(1, user.getX() - living.getX(), user.getZ() - living.getZ());
+					playerEntity.getItemCooldownManager().set(this, 70);
+					playerEntity.getItemCooldownManager().set(TacItems.SHATTERED_QUARTZITE_HAMMER, 105);
+					for (LivingEntity entity : world.getNonSpectatingEntities(LivingEntity.class, user.getBoundingBox().expand(4f, 2f, 4f))) {
+						if (shockwaveShouldDamage(entity, user)) {
+							entity.takeKnockback(1, user.getX() - entity.getX(), user.getZ() - entity.getZ());
+							entity.damage(TacDamage.create(user.getWorld(), TacDamage.HAMMER_POWERSLAM, user), 8);
 						}
-					});
-					world.getOtherEntities(user, user.getBoundingBox().expand(4f, 2f, 4f).offset(0f, -0.5f, 0f)).forEach(e ->
-						e.damage(TacDamage.HAMMER_SHOCKWAVE, 8));
-					if(!world.isClient)
+					}
+					if(!world.isClient())
 					{
 						for (int y = 0; y <= 3; y++)
 						{
@@ -186,7 +204,8 @@ public class QuartziteHammerItem extends PickaxeItem {
 			else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.BOOSTING, user)) {
 				int i = this.getMaxUseTime(stack) - remainingUseTicks;
 				if (i >= 4) {
-					((PlayerEntity) user).getItemCooldownManager().set(this, 30);
+					playerEntity.getItemCooldownManager().set(this, 40);
+					playerEntity.getItemCooldownManager().set(TacItems.SHATTERED_QUARTZITE_HAMMER, 60);
 					float f = playerEntity.getYaw();
 					float g = playerEntity.getPitch();
 					float h = -MathHelper.sin(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
@@ -203,17 +222,19 @@ public class QuartziteHammerItem extends PickaxeItem {
 						playerEntity.move(MovementType.SELF, new Vec3d(0.0, 1.1999999284744263, 0.0));
 					}
 
-					SoundEvent soundEvent = TacCorpsTrinkets.HAMMER_WHIRRING;
-
-					world.playSoundFromEntity(null, playerEntity, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+					world.playSoundFromEntity(null, playerEntity, TacCorpsTrinkets.HAMMER_WHIRRING, SoundCategory.PLAYERS, 1.0F, 1.0F);
 				}
 			}
 		}
 	}
 
+	public static boolean shockwaveShouldDamage(LivingEntity entity, LivingEntity user) {
+		return entity != user && entity.isAttackable() && !entity.isTeammate(user) && !(entity instanceof Tameable tameable && tameable.getOwner() == user);
+	}
+
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(Text.literal("Tac's trademark weapon.").formatted(Formatting.DARK_AQUA));
+		tooltip.add(Text.translatable("item.taccorpstrinkets.quartzite_hammer.tooltip").setStyle(Style.EMPTY.withColor(0xd0c6b6)));
         super.appendTooltip(stack, world, tooltip, context);
     }
 }

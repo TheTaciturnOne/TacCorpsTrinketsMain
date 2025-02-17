@@ -1,12 +1,16 @@
 {
-  "type": "minecraft:smithing",
-  "addition": {
-    "item": "taccorpstrinkets:netherite_frame"
+  "type": "minecraft:smithing_trim",
+  "template": {
+    "item": "taccorpstrinkets:prismatic_quartz_shard"
   },
   "base": {
     "item": "minecraft:quartz_stairs"
+  },
+  "addition": {
+    "item": "taccorpstrinkets:netherite_frame"
   },
   "result": {
     "item": "taccorpstrinkets:netherite_strengthened_quartz_stairs"
   }
 }
+

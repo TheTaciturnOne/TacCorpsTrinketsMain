@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,11 +25,11 @@ public abstract class ItemEntityMixin extends Entity {
 
 	@Override
 	protected void onBlockCollision(BlockState state) {
-		if (state.isOf(Blocks.LAVA) && getStack().getItem().equals(Items.NETHERITE_INGOT)) {
+		if (state.isOf(Blocks.LAVA) && getStack().getItem().equals(Items.NETHERITE_INGOT) && this.getWorld() != null) {
 			BlockPos magmaPos = getBlockPos().down(1);
-			BlockState magmaState = world.getBlockState(magmaPos);
+			BlockState magmaState = this.getWorld().getBlockState(magmaPos);
 			if (magmaState.isOf(Blocks.MAGMA_BLOCK)) {
-				dropStack(new ItemStack(TacItems.NETHERITE_SLAG, 1));
+				dropStack(new ItemStack(TacItems.NETHERITE_SLAG, this.getStack().getCount())); // imagine throwing in a stack and only getting one lmfaoooo
 				this.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 10.0F, 1.0F);
 				this.discard();
 			}

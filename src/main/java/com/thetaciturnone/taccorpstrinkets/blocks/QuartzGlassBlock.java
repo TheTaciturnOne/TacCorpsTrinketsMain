@@ -17,6 +17,7 @@ public class QuartzGlassBlock extends GlassBlock {
         super(settings);
     }
 
+	@Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
 		if (world instanceof ServerWorld && entity instanceof Entity) {

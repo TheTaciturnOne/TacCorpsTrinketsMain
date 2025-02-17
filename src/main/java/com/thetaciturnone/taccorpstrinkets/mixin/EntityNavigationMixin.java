@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityNavigation.class)
-public class EntityNavigationMixin {
+public abstract class EntityNavigationMixin {
     @Shadow
     @Final
     protected MobEntity entity;
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void tick(CallbackInfo ci) {
+    public void tacCorp$cancelNavigationWhenStunned(CallbackInfo ci) {
         if (entity.hasStatusEffect(TacCorpsTrinkets.STUNNED)) {
             ci.cancel();
         }

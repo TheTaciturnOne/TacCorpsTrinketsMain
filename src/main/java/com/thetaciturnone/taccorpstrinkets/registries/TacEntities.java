@@ -8,19 +8,19 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class TacEntities {
-	public static EntityType<ThrownHammerEntity> THROWN_HAMMER;
-	public static EntityType<ThrownTacEntity> THROWN_TAC;
+	public static EntityType<ThrownHammerEntity> THROWN_HAMMER = register("thrown_hammer", createEntityType(ThrownHammerEntity::new));
+	public static EntityType<ThrownTacEntity> THROWN_TAC = register("thrown_tac", createEntityType(ThrownTacEntity::new));
 
-	public static void init() {
-		THROWN_HAMMER = register("thrown_hammer", createEntityType(ThrownHammerEntity::new));
-		THROWN_TAC = register("thrown_tac", createEntityType(ThrownTacEntity::new));
+	public static void registerModEntities() { // this method can be blank
+
 	}
 
-	private static <T extends Entity> EntityType<T> register(String s, EntityType<T> bombEntityType) {
-		return Registry.register(Registry.ENTITY_TYPE, TacCorpsTrinkets.MOD_ID + ":" + s, bombEntityType);
+	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> bombEntityType) {
+		return Registry.register(Registries.ENTITY_TYPE, TacCorpsTrinkets.id(name), bombEntityType);
 	}
 
 	private static <T extends Entity> EntityType<T> createEntityType(EntityType.EntityFactory<T> factory) {

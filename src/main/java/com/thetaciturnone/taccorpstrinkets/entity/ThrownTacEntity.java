@@ -1,8 +1,8 @@
 package com.thetaciturnone.taccorpstrinkets.entity;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
+import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEntities;
-import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -10,13 +10,10 @@ import net.minecraft.item.Item;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
 public class ThrownTacEntity extends ThrownItemEntity {
-
-
 
     public ThrownTacEntity(EntityType<ThrownTacEntity> shotBreadEntityEntityType, World world) {
         super(shotBreadEntityEntityType, world);
@@ -31,7 +28,7 @@ public class ThrownTacEntity extends ThrownItemEntity {
     }
 
 	protected Item getDefaultItem() {
-        return TacItems.TAC_PLUSHIE;
+        return TacBlocks.TAC_PLUSHIE.asItem();
     }
 
     public void handleStatus(byte status) {
@@ -45,7 +42,7 @@ public class ThrownTacEntity extends ThrownItemEntity {
 
     }
     private ParticleEffect getParticleParameters() {
-        return new ItemStackParticleEffect(ParticleTypes.ITEM, TacItems.TAC_PLUSHIE.getDefaultStack());
+        return new ItemStackParticleEffect(ParticleTypes.ITEM, TacBlocks.TAC_PLUSHIE.asItem().getDefaultStack());
     }
 
     @Override
@@ -53,10 +50,8 @@ public class ThrownTacEntity extends ThrownItemEntity {
         super.onCollision(hitResult);
         if (!this.getWorld().isClient) {
             this.getWorld().sendEntityStatus(this, (byte)3);
-			this.dropItem(TacItems.TAC_PLUSHIE);
-			SoundEvent soundEvent = TacCorpsTrinkets.TAC_THROWHIT_SOUND_EVENT;
-			float g = 1.0F;
-			this.playSound(soundEvent, g, 1.0F);
+			this.dropItem(TacBlocks.TAC_PLUSHIE.asItem());
+			this.playSound(TacCorpsTrinkets.TAC_THROWHIT_SOUND_EVENT, 1.0f, 1.0f);
 			this.discard();
         }
     }

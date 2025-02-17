@@ -5,8 +5,11 @@
   "item.taccorpstrinkets.quartzite_relocator": "Quartzite Relocator",
   "item.taccorpstrinkets.marshmallow": "Marshmallow",
   "item.taccorpstrinkets.quartzite_hammer": "Quartzite Hammer",
+  "item.taccorpstrinkets.quartzite_hammer.tooltip": "Tac's trademark weapon.",
   "item.taccorpstrinkets.shattered_quartzite_hammer": "Shattered Quartzite Hammer",
+  "item.taccorpstrinkets.shattered_quartzite_hammer.tooltip": "A reminder of her failures..",
   "item.taccorpstrinkets.mask_of_silence": "Tac's Mask",
+  "item.taccorpstrinkets.mask_of_silence.tooltip": "The face of the company!",
 
   "block.taccorpstrinkets.quartz_crystal": "Quartz Crystal",
   "block.taccorpstrinkets.budding_quartz_crystal": "Budding Quartz Crystal",
@@ -40,7 +43,7 @@
   "subtitles.taccorpstrinkets.hammer_shatter": "Quartzite Hammer shatters",
   "subtitles.taccorpstrinkets.prismatic_hum": "Prismatic Quartz hums",
 
-  "itemGroup.taccorpstrinkets.taccorp_trinkets": "Taccorp Trinkets 2.0",
+  "itemgroup.taccorpstrinkets.taccorp_trinkets": "Taccorp Trinkets 2.0",
 
   "effect.taccorpstrinkets.stunned": "Stunned",
 

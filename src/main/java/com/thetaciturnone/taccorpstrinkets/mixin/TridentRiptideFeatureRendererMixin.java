@@ -17,9 +17,10 @@ import static com.thetaciturnone.taccorpstrinkets.TacCorpsTrinketsClient.HAMMER_
 
 @Mixin(TridentRiptideFeatureRenderer.class)
 public abstract class TridentRiptideFeatureRendererMixin {
-    @ModifyVariable(method = "render", at = @At("STORE"))
-    private VertexConsumer swapHotRiptide(VertexConsumer orig, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, LivingEntity livingEntity) {
-        if (livingEntity instanceof PlayerEntity && livingEntity.isUsingRiptide() && (livingEntity.getMainHandStack().getItem() == TacItems.QUARTZITE_HAMMER || (livingEntity.getOffHandStack().getItem() == TacItems.QUARTZITE_HAMMER) || (livingEntity.getMainHandStack().getItem() == TacItems.SHATTERED_QUARTZITE_HAMMER || (livingEntity.getOffHandStack().getItem() == TacItems.SHATTERED_QUARTZITE_HAMMER)))) {
+    @ModifyVariable(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At("STORE"))
+    private VertexConsumer tacCorp$flingingHammerRiptideRenderer(VertexConsumer orig, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, LivingEntity livingEntity) {
+        if (livingEntity instanceof PlayerEntity player && player.isUsingRiptide() && (player.getMainHandStack().isOf(TacItems.QUARTZITE_HAMMER) || player.getMainHandStack().isOf(TacItems.SHATTERED_QUARTZITE_HAMMER)
+		|| player.getOffHandStack().isOf(TacItems.QUARTZITE_HAMMER) || player.getOffHandStack().isOf(TacItems.SHATTERED_QUARTZITE_HAMMER)) && (player.getItemCooldownManager().isCoolingDown(TacItems.QUARTZITE_HAMMER) || player.getItemCooldownManager().isCoolingDown(TacItems.SHATTERED_QUARTZITE_HAMMER))) {
             return vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(HAMMER_BOOST_TEXTURE));
         }
         return orig;

@@ -25,11 +25,6 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 		this.setDefaultState(this.getDefaultState().with(LIT, false));
 	}
 
-	@Override
-	public PistonBehavior getPistonBehavior(BlockState state) {
-		return PistonBehavior.IGNORE;
-	}
-
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
 		if (!world.isClient) {
 			BlockPos lightPos1 = pos.down(1);
@@ -37,7 +32,7 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 			boolean bl = state.get(LIT);
 			if (bl != getLitState((WorldAccess) lightState1, pos)) {
 				if (bl) {
-					world.createAndScheduleBlockTick(pos, this, 2);
+					world.scheduleBlockTick(pos, this, 2);
 				} else {
 					world.setBlockState(pos, state.cycle(LIT), 2);
 				}

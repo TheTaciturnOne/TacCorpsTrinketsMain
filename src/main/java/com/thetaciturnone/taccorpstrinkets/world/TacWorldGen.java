@@ -7,7 +7,7 @@ import net.minecraft.world.gen.GenerationStep;
 public class TacWorldGen {
 	public static void generateGeode() {
 
-		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
-			GenerationStep.Feature.UNDERGROUND_ORES, TacPlacedFeat.QUARTZ_GEODE_PLACED.getKey().get());
+		/*BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
+			GenerationStep.Feature.UNDERGROUND_ORES, TacPlacedFeat.QUARTZ_GEODE_PLACED.getKey().get());*/
 	}
 }

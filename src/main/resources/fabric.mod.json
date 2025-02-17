@@ -7,7 +7,8 @@
   "description": "Taccorp's all-new Tac merch and weapons! NOW ON FABRIC!",
   "authors": [
     "TheTaciturnOne - Owner, Coder",
-    "HollowedWanderer - Texturer"
+    "HollowedWanderer - Texturer",
+    "TheTrueYak - :p"
   ],
   "contact": {
     "My Twitch": "https://www.twitch.tv/thetaciturnone",
@@ -33,7 +34,7 @@
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "~1.19",
+    "minecraft": "~1.20.1",
     "java": ">=17",
     "trinkets": "*"
   },

@@ -8,9 +8,9 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 
 @Environment(EnvType.CLIENT)
@@ -18,7 +18,7 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
     private final SpriteProvider sprites;
 	private float prevAlpha;
 	private final float alphaDecrease;
-    private static final Quaternion QUATERNION = new Quaternion(0F, -0.7F, 0.7F, 0F);
+    private static final Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
 
     ShockwaveParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
 		super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
@@ -39,22 +39,23 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
         float y = (float) (MathHelper.lerp(ticks, this.prevPosY, this.y) - vec3.getY());
         float z = (float) (MathHelper.lerp(ticks, this.prevPosZ, this.z) - vec3.getZ());
 
-        Vec3f[] alphas = new Vec3f[]{new Vec3f(-1.0F, -1.0F, 0.0F), new Vec3f(-1.0F, 1.0F, 0.0F), new Vec3f(1.0F, 1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F)};
+		Vector3f[] alphas = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
         // Additional vertices for underside faces
-		Vec3f[] alphasBottom = new Vec3f[]{new Vec3f(-1.0F, -1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F), new Vec3f(1.0F, -1.0F, 0.0F), new Vec3f(-1.0F, -1.0F, 0.0F)};
+		Vector3f[] alphasBottom = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, -1.0F, 0.0F)};
 
-        float f4 = this.getSize(ticks);
+        //float f4 = this.getSize(ticks);
 
         for (int i = 0; i < 4; ++i) {
-			Vec3f alpha = alphas[i];
+			Vector3f alpha = alphas[i];
             alpha.rotate(QUATERNION);
-            alpha.scale(f4);
+			//alpha.scale(f4);
+			alpha.mul(this.getSize(ticks));
             alpha.add(x, y, z);
 
             // Create additional vertices for underside faces
-			Vec3f alphaBottom = alphasBottom[i];
+			Vector3f alphaBottom = alphasBottom[i];
             alphaBottom.rotate(QUATERNION);
-            alphaBottom.scale(f4);
+            //alphaBottom.scale(f4);
             alphaBottom.add(x, y - 0.1F, z); // Slightly lower to avoid z-fighting
         }
 
@@ -65,16 +66,16 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
         int light = this.getBrightness(ticks);
 
         // Render the top faces
-        buffer.vertex(alphas[0].getX(), alphas[0].getY(), alphas[0].getZ()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[1].getX(), alphas[1].getY(), alphas[1].getZ()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[2].getX(), alphas[2].getY(), alphas[2].getZ()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[3].getX(), alphas[3].getY(), alphas[3].getZ()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[0].x(), alphas[0].y(), alphas[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[1].x(), alphas[1].y(), alphas[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[2].x(), alphas[2].y(), alphas[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[3].x(), alphas[3].y(), alphas[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
 
         // Render the underside faces
-        buffer.vertex(alphas[3].getX(), alphas[3].getY(), alphas[3].getZ()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[2].getX(), alphas[2].getY(), alphas[2].getZ()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[1].getX(), alphas[1].getY(), alphas[1].getZ()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[0].getX(), alphas[0].getY(), alphas[0].getZ()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[3].x(), alphas[3].y(), alphas[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[2].x(), alphas[2].y(), alphas[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[1].x(), alphas[1].y(), alphas[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[0].x(), alphas[0].y(), alphas[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
     }
 
     @Override
