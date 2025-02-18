@@ -31,14 +31,15 @@ public class ThrownHammerEntityRenderer extends EntityRenderer<ThrownHammerEntit
 		matrixStack.push();
 		ItemStack itemStack = entityIn.getItem();
 		float age = entityIn.getAgeException();
+		boolean isInWater = entityIn.isSubmergedInWater();
+		float rotSpeed = isInWater ? 10.0F : 135.0F;
 		BakedModel ibakedmodel = this.itemRenderer.getModel(itemStack, entityIn.getWorld(), null, 1);
-		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(tickDelta, entityIn.prevYaw, entityIn.getYaw()) - 270.0f));
-		matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.lerp(tickDelta, entityIn.prevPitch, entityIn.getPitch()) + 135.0f * age));
+		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entityIn.getYaw() - 270.0f));
+		matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.lerp(tickDelta, entityIn.prevPitch, entityIn.getPitch()) + rotSpeed * age));
 		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0f));
 		itemRenderer.renderItem(itemStack, ModelTransformationMode.THIRD_PERSON_RIGHT_HAND, false, matrixStack, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, ibakedmodel);
 		matrixStack.scale(1, 1, 1);
 		matrixStack.translate(0.1f, -0.2f, 0.0f);
-
 
 		matrixStack.pop();
 
