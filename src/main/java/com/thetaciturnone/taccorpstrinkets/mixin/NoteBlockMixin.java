@@ -18,10 +18,12 @@ import org.spongepowered.asm.mixin.injection.At;
 public class NoteBlockMixin {
 
 	@WrapOperation(method = "onSyncedBlockEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/enums/Instrument;getSound()Lnet/minecraft/registry/entry/RegistryEntry;"))
-	private RegistryEntry<SoundEvent> tacCorp$tacMeowNoteBlock(Instrument instrument, Operation<SoundEvent> original, BlockState state, World world, BlockPos pos, int type, int data) {
+	private RegistryEntry<SoundEvent> tacCorp$tacMeowNoteBlock(Instrument instrument, Operation<RegistryEntry<SoundEvent>> original, BlockState state, World world, BlockPos pos, int type, int data) {
 		if (world.getBlockState(pos.down()).isOf(TacBlocks.TAC_PLUSHIE)) {
 			return RegistryEntry.of(TacCorpsTrinkets.TAC_BOOPED_SOUND_EVENT);
 		}
-		else return instrument.getSound(); // original.call was yelling at me so I just called the actual method instead :p
+		return original.call(instrument);
 	}
+
+
 }

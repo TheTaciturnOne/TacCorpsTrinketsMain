@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "taccorpstrinkets:item/pico_pico_quartzite_hammer_gui"
+  }
+}

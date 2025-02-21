@@ -20,8 +20,9 @@ public abstract class ItemRendererMixin {
 
 	@ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At(value = "HEAD"), argsOnly = true)
 	public BakedModel trinkets$largeHammerModel(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-		if (stack.getItem() instanceof QuartziteHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
-			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "quartzite_hammer_handheld", "inventory"));
+		if (stack.getItem() instanceof QuartziteHammerItem) {
+			boolean handheld = (renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND);
+			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(QuartziteHammerItem.getHammerModelIdentifier(stack, handheld));
 		}
 		else if (stack.getItem() instanceof ShatteredHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
 			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "shattered_quartzite_hammer_handheld", "inventory"));

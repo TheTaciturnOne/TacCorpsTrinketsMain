@@ -9,6 +9,7 @@ import com.thetaciturnone.taccorpstrinkets.utils.TaccorpsUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.Tameable;
@@ -18,6 +19,7 @@ import net.minecraft.item.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
@@ -36,15 +38,15 @@ public class QuartziteHammerItem extends PickaxeItem {
         super(toolMaterial, attackDamage, attackSpeed, settings);
     }
 
-	public static int getStyle(ItemStack stack) {
+	public static int getVariant(ItemStack stack) {
 		if (stack.getNbt() == null) {
 			return 0;
 		}
-		return stack.getNbt().getInt("style");
+		return stack.getNbt().getInt("variant");
 	}
 
-	public static void setStyle(ItemStack stack, int style) {
-		stack.getOrCreateNbt().putInt("style", style);
+	public static void setVariant(ItemStack stack, int variant) {
+		stack.getOrCreateNbt().putInt("variant", variant);
 	}
 
     @Override
@@ -89,7 +91,15 @@ public class QuartziteHammerItem extends PickaxeItem {
 			playerEntity.setStackInHand(playerEntity.getActiveHand(), shatteredHammer);
 			world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), TacCorpsTrinkets.HAMMER_SHATTER, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			return ActionResult.success(world.isClient());
-		} else return super.useOnBlock(context);
+		}
+		if (blockState.isOf(Blocks.SMITHING_TABLE) && Objects.requireNonNull(playerEntity).isSneaking()) {
+			ItemStack stack = context.getStack();
+			setVariant(stack, cycleVariant(getVariant(stack)));
+			world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_SMITHING_TABLE_USE, SoundCategory.NEUTRAL, 1.0F, 1.2F);
+			playerEntity.getItemCooldownManager().set(this, 5);
+			return ActionResult.success(world.isClient());
+		}
+		return super.useOnBlock(context);
 	}
 
 	public void spawnHammerSlamParticles(LivingEntity player) {
@@ -230,6 +240,29 @@ public class QuartziteHammerItem extends PickaxeItem {
 
 	public static boolean shockwaveShouldDamage(LivingEntity entity, LivingEntity user) {
 		return entity != user && entity.isAttackable() && !entity.isTeammate(user) && !(entity instanceof Tameable tameable && tameable.getOwner() == user);
+	}
+
+	public static int cycleVariant(int current) {
+		if (current < 4) {
+			return current + 1;
+		}
+		return 0;
+	}
+
+	public static ModelIdentifier getHammerModelIdentifier(ItemStack stack, boolean isHandheld) {
+		String modelString = isHandheld ? getHammerModelString(stack) + "_handheld" : getHammerModelString(stack);
+		return new ModelIdentifier(TacCorpsTrinkets.MOD_ID, modelString, "inventory");
+	}
+
+	public static String getHammerModelString(ItemStack stack) {
+		int variant = getVariant(stack);
+		return switch (variant) {
+			case 1 -> "dedede_quartzite_hammer";
+			case 2 -> "pico_pico_quartzite_hammer";
+			case 3 -> "hextech_quartzite_hammer";
+			case 4 -> "spamton_quartzite_hammer";
+			default -> "quartzite_hammer";
+		};
 	}
 
     @Override

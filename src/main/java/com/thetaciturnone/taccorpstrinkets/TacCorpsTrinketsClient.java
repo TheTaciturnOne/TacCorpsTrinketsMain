@@ -1,5 +1,7 @@
 package com.thetaciturnone.taccorpstrinkets;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.thetaciturnone.taccorpstrinkets.client.renderer.TacPlushieBlockEntityRenderer;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntityRenderer;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownTacEntityRenderer;
@@ -12,7 +14,9 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.ModelIdentifier;
@@ -21,6 +25,7 @@ import net.minecraft.util.Identifier;
 
 public class TacCorpsTrinketsClient implements ClientModInitializer {
 	public static final Identifier HAMMER_BOOST_TEXTURE = TacCorpsTrinkets.id("textures/entity/hammer_boost.png");
+
 	@Override
 	public void onInitializeClient() {
 		EntityRendererRegistry.register(TacEntities.THROWN_HAMMER, ThrownHammerEntityRenderer::new);
@@ -35,7 +40,6 @@ public class TacCorpsTrinketsClient implements ClientModInitializer {
 		BlockRenderLayerMapImpl.INSTANCE.putBlock(TacBlocks.MEDIUM_QUARTZ_CRYSTAL_CLUSTER, RenderLayer.getCutout());
 		BlockRenderLayerMapImpl.INSTANCE.putBlock(TacBlocks.SMALL_QUARTZ_CRYSTAL_CLUSTER, RenderLayer.getCutout());
 
-
 		ParticleFactoryRegistry.getInstance().register(TacCorpsTrinkets.HAMMER_SLAM, HammerSlamParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(TacCorpsTrinkets.HAMMER_WAVE, ShockwaveParticle.Factory::new);
 
@@ -45,6 +49,15 @@ public class TacCorpsTrinketsClient implements ClientModInitializer {
 			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "quartzite_hammer_handheld", "inventory"));
 			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "shattered_quartzite_hammer_handheld", "inventory"));
 			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "mask_of_silence_worn", "inventory"));
+
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "dedede_quartzite_hammer", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "dedede_quartzite_hammer_handheld", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "pico_pico_quartzite_hammer", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "pico_pico_quartzite_hammer_handheld", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "hextech_quartzite_hammer", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "hextech_quartzite_hammer_handheld", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "spamton_quartzite_hammer", "inventory"));
+			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "spamton_quartzite_hammer_handheld", "inventory"));
 		});
 	}
 

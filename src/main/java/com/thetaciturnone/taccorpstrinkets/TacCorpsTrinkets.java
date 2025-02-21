@@ -10,7 +10,6 @@ import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEntities;
 import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.StatusEffectBase;
-import com.thetaciturnone.taccorpstrinkets.world.TacConfigFeatures;
 import com.thetaciturnone.taccorpstrinkets.world.TacWorldGen;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
@@ -83,8 +82,7 @@ public class TacCorpsTrinkets implements ModInitializer {
 		TacBlocks.registerModBlocks();
 		TacItems.registerModItems();
 		TacEntities.registerModEntities();
-		TacWorldGen.generateGeode();
-		//TacConfigFeatures.registerConfiguredFeatures();
+		TacWorldGen.registerGeode();
 		Registry.register(Registries.ENCHANTMENT, id("stunning"), STUNNING);
 		Registry.register(Registries.ENCHANTMENT, id("flinging"), FLINGING);
 		Registry.register(Registries.ENCHANTMENT, id("slamming"), SLAMMING);
