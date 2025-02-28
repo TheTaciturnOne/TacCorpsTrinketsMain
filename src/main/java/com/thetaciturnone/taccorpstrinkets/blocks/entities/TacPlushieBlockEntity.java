@@ -31,7 +31,7 @@ public class TacPlushieBlockEntity extends BlockEntity {
 	}
 
 	public void squish(int squash) {
-		this.squash += (double)squash;
+		this.squash += squash;
 		if (this.world != null) {
 			this.world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 2);
 		}

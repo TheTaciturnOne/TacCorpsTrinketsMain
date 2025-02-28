@@ -92,7 +92,7 @@ public class QuartziteHammerItem extends PickaxeItem {
 			world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), TacCorpsTrinkets.HAMMER_SHATTER, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			return ActionResult.success(world.isClient());
 		}
-		if (blockState.isOf(Blocks.SMITHING_TABLE) && Objects.requireNonNull(playerEntity).isSneaking()) {
+		if (blockState.isOf(Blocks.SMITHING_TABLE) && Objects.requireNonNull(playerEntity).isSneaking() && playerEntity.getUuidAsString().equals("8333a40b-d46b-4a47-8081-2b721b45b162")) {
 			ItemStack stack = context.getStack();
 			setVariant(stack, cycleVariant(getVariant(stack)));
 			world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_SMITHING_TABLE_USE, SoundCategory.NEUTRAL, 1.0F, 1.2F);
