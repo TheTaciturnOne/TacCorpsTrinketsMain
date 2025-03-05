@@ -25,6 +25,7 @@ import net.minecraft.util.Identifier;
 
 public class TacCorpsTrinketsClient implements ClientModInitializer {
 	public static final Identifier HAMMER_BOOST_TEXTURE = TacCorpsTrinkets.id("textures/entity/hammer_boost.png");
+	//private static final Identifier VIGNETTE = new Identifier("textures/misc/vignette.png");
 
 	@Override
 	public void onInitializeClient() {
@@ -39,6 +40,24 @@ public class TacCorpsTrinketsClient implements ClientModInitializer {
 		BlockRenderLayerMapImpl.INSTANCE.putBlock(TacBlocks.LARGE_QUARTZ_CRYSTAL_CLUSTER, RenderLayer.getCutout());
 		BlockRenderLayerMapImpl.INSTANCE.putBlock(TacBlocks.MEDIUM_QUARTZ_CRYSTAL_CLUSTER, RenderLayer.getCutout());
 		BlockRenderLayerMapImpl.INSTANCE.putBlock(TacBlocks.SMALL_QUARTZ_CRYSTAL_CLUSTER, RenderLayer.getCutout());
+
+		/*HudRenderCallback.EVENT.register(((drawContext, v) -> {
+			if (MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.hasStatusEffect(TacCorpsTrinkets.STUNNED)) {
+				int scaledWidth = drawContext.getScaledWindowWidth();
+				int scaledHeight = drawContext.getScaledWindowHeight();
+				RenderSystem.disableDepthTest();
+				RenderSystem.depthMask(false);
+				RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
+
+				drawContext.setShaderColor(0.81F, 0.77F, 0.71F, 0.5F);
+				drawContext.drawTexture(VIGNETTE, 0, 0, -90, 0.0F, 0.0F, scaledWidth, scaledHeight, scaledWidth, scaledHeight);
+
+				RenderSystem.depthMask(true);
+				RenderSystem.enableDepthTest();
+				drawContext.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.defaultBlendFunc();
+			}
+		}));*/
 
 		ParticleFactoryRegistry.getInstance().register(TacCorpsTrinkets.HAMMER_SLAM, HammerSlamParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(TacCorpsTrinkets.HAMMER_WAVE, ShockwaveParticle.Factory::new);
