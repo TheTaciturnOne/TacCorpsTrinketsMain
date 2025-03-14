@@ -24,6 +24,6 @@ public class TacEntities {
 	}
 
 	private static <T extends Entity> EntityType<T> createEntityType(EntityType.EntityFactory<T> factory) {
-		return FabricEntityTypeBuilder.create(SpawnGroup.MISC, factory).dimensions(EntityDimensions.changing(0.5f, 0.5f)).trackRangeBlocks(64).trackedUpdateRate(20).build();
+		return EntityType.Builder.create(factory, SpawnGroup.MISC).dimensions(0.75f, 0.75f).maxTrackingRange(64).trackingTickInterval(20).build();
 	}
 }

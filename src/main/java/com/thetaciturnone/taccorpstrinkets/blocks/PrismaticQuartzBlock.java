@@ -1,5 +1,6 @@
 package com.thetaciturnone.taccorpstrinkets.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.blocks.entities.PrismaticQuartzBlockEntity;
 import net.minecraft.block.*;
@@ -49,7 +50,12 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, TacCorpsTrinkets.PRISMATIC_ENTITY, PrismaticQuartzBlockEntity::tick);
+		return validateTicker(type, TacCorpsTrinkets.PRISMATIC_ENTITY, PrismaticQuartzBlockEntity::tick);
+	}
+
+	@Override
+	protected MapCodec<? extends BlockWithEntity> getCodec() {
+		return createCodec(TacPlushieBlock::new);
 	}
 
 	@Nullable

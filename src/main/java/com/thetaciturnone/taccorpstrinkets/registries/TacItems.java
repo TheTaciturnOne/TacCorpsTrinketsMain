@@ -20,11 +20,13 @@ public class TacItems {
 	public static final Item MARSHMALLOW = registerItem("marshmallow",
 		new Item(new Item.Settings().food(TacFoodItems.MARSHMALLOW_FOOD_ITEM)));
 	public static final Item QUARTZITE_HAMMER = registerItem("quartzite_hammer",
-		new QuartziteHammerItem(TacToolMaterials.QUARTZITE, 6, -3F,
-			new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()));
+		new QuartziteHammerItem(QuartziteToolMaterial.QUARTZITE,
+			new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()
+				.attributeModifiers(QuartziteHammerItem.createAttributeModifiers(QuartziteToolMaterial.QUARTZITE, 4, -3F))));
 	public static final Item SHATTERED_QUARTZITE_HAMMER = registerItem("shattered_quartzite_hammer",
-		new ShatteredHammerItem(TacToolMaterials.QUARTZITE, 4, -2.7F,
-			new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()));
+		new ShatteredHammerItem(QuartziteToolMaterial.QUARTZITE,
+			new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()
+				.attributeModifiers(ShatteredHammerItem.createAttributeModifiers(QuartziteToolMaterial.QUARTZITE, 2, -3.2F))));
 	public static final Item MASK_OF_SILENCE = registerItem("mask_of_silence",
 		new SilentMaskItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()));
 

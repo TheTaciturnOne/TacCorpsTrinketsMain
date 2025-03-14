@@ -8,7 +8,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,13 +21,15 @@ public abstract class ItemRendererMixin {
 	public BakedModel tacCorp$largeHammerModel(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		if (stack.getItem() instanceof QuartziteHammerItem) {
 			boolean handheld = (renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND);
-			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(QuartziteHammerItem.getHammerModelIdentifier(stack, handheld));
+			if (QuartziteHammerItem.getVariant(stack) != 0 || handheld) { // trying to parse in the default gui hammer model breaks it so now it skips that one
+				return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(QuartziteHammerItem.getHammerModelIdentifier(stack, handheld));
+			}
 		}
 		else if (stack.getItem() instanceof ShatteredHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
-			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "shattered_quartzite_hammer_handheld", "inventory"));
+			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(TacCorpsTrinkets.id("item/shattered_quartzite_hammer_handheld"));
 		}
 		else if (stack.getItem() instanceof SilentMaskItem && renderMode == ModelTransformationMode.HEAD) {
-			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "mask_of_silence_worn", "inventory"));
+			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(TacCorpsTrinkets.id("item/mask_of_silence_worn"));
 		}
 		return value;
 	}

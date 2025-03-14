@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:quartz"
+    },
+    "X": {
+      "item": "taccorpstrinkets:prismatic_quartz_shard"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "taccorpstrinkets:quartz_crystal"
+  }
+}

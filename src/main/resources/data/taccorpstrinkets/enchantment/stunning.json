@@ -1,0 +1,48 @@
+{
+  "anvil_cost": 5,
+  "description": {
+    "translate": "enchantment.taccorpstrinkets.stunning"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "enchanted": "attacker",
+        "effect": {
+          "type": "all_of",
+          "effects": [
+            {
+              "type": "minecraft:apply_mob_effect",
+              "to_apply": "taccorpstrinkets:stunned",
+              "min_duration": 1,
+              "max_duration": 3,
+              "min_amplifier": 0,
+              "max_amplifier": 0
+            }
+          ]
+        },
+        "requirements": {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "is_direct": true
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#taccorpstrinkets:exclusive_set/hammer_set",
+  "min_cost": {
+    "base": 3,
+    "per_level_above_first": 0
+  },
+  "max_cost": {
+    "base": 12,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#taccorpstrinkets:hammer_enchantable",
+  "weight": 5
+}

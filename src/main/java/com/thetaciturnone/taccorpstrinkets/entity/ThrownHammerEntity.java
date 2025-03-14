@@ -2,24 +2,25 @@ package com.thetaciturnone.taccorpstrinkets.entity;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEntities;
+import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -27,35 +28,60 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ThrownHammerEntity extends PersistentProjectileEntity {
-	public static final TrackedData<NbtCompound> THROWN_ITEM = DataTracker.registerData(ThrownHammerEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
+	public static final TrackedData<ItemStack> THROWN_ITEM = DataTracker.registerData(ThrownHammerEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
 	private boolean dealtDamage;
 	public int returnTimer;
+	public int stackSlot = -1;
 
 	public ThrownHammerEntity(EntityType<? extends ThrownHammerEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	public ThrownHammerEntity(World world, LivingEntity owner, ItemStack stack) {
-		super(TacEntities.THROWN_HAMMER, owner, world);
-		this.dataTracker.set(THROWN_ITEM, stack.copy().writeNbt(new NbtCompound()));
+		super(TacEntities.THROWN_HAMMER, owner, world, stack, null);
+		this.dataTracker.set(THROWN_ITEM,  stack);
+		if (owner instanceof PlayerEntity playerEntity) {
+			int slot = playerEntity.getInventory().getSlotWithStack(stack);
+			if (slot == -1 && ItemStack.areItemsAndComponentsEqual(playerEntity.getOffHandStack(), stack)) {
+				slot = PlayerInventory.OFF_HAND_SLOT;
+			}
+			this.setStackSlot(slot); // preserves the stack slot rahhh!!!
+		}
+	}
+
+	public ThrownHammerEntity(World world, double x, double y, double z, ItemStack stack) {
+		super(TacEntities.THROWN_HAMMER, x, y, z, world, stack, stack);
+		this.dataTracker.set(THROWN_ITEM, stack);
 	}
 
 	public ItemStack getItemStack() {
-		return ItemStack.fromNbt(this.getDataTracker().get(THROWN_ITEM));
+		return this.getDataTracker().get(THROWN_ITEM);
 	}
 
+	public ItemStack getDefaultItemStack() {
+		return new ItemStack(TacItems.QUARTZITE_HAMMER);
+	}
 
 	public ItemStack getItem() {
 		return this.getItemStack();
 	}
 
 	public void setItemStack(ItemStack stack) {
-		this.getDataTracker().set(THROWN_ITEM, stack.writeNbt(new NbtCompound()));
+		this.getDataTracker().set(THROWN_ITEM, stack);
 	}
 
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(THROWN_ITEM, new NbtCompound());
+	public int getStackSlot() {
+		return stackSlot;
+	}
+
+	public void setStackSlot(int slot) {
+		stackSlot = slot;
+	}
+
+	@Override
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+		builder.add(THROWN_ITEM, this.getDefaultItemStack());
 	}
 
 	public void tick() {
@@ -104,35 +130,44 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 		Entity entity = entityHitResult.getEntity();
 		Entity owner = this.getOwner();
+		World world = this.getWorld();
 
 		float f = 10.0F;
-		if (entity instanceof LivingEntity livingEntity) {
-			f += EnchantmentHelper.getAttackDamage(this.getItem(), livingEntity.getGroup());
-			livingEntity.takeKnockback(1.5, entity.getX() - this.getX(), entity.getZ() - this.getZ());
+		DamageSource damageSource = TacDamage.create(world, TacDamage.HAMMER_POWERSLAM, this, owner == null ? this : owner);
+		this.dealtDamage = true;
+		if (world instanceof ServerWorld serverWorld) {
+			f = EnchantmentHelper.getDamage(serverWorld, this.getItemStack(), entity, damageSource, f);
 		}
 
-		DamageSource damageSource = TacDamage.create(getWorld(), TacDamage.HAMMER_POWERSLAM, this, owner == null ? this : owner);
-		this.dealtDamage = true;
-		SoundEvent soundEvent = TacCorpsTrinkets.HAMMER_SLAMMED;
 		if (entity.damage(damageSource, f)) {
 			if (entity.getType() == EntityType.ENDERMAN) {
 				return;
 			}
 
-			if (entity instanceof LivingEntity target && owner instanceof LivingEntity user) {
-				EnchantmentHelper.onUserDamaged(user, target);
-				EnchantmentHelper.onTargetDamaged(target, user);
+			if (world instanceof ServerWorld serverWorld) {
+				EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource, this.getWeaponStack());
+			}
 
+			if (entity instanceof LivingEntity target) {
+				this.knockback(target, damageSource);
 				this.onHit(target);
 			}
 		}
 
 		this.setVelocity(this.getVelocity().multiply(-0.01, -0.1, -0.01));
-		float g = 1.0F;
-
-		this.playSound(soundEvent, g, 1.0F);
+		this.playSound(TacCorpsTrinkets.HAMMER_SLAMMED, 1.0F, 1.0F);
 	}
 	protected boolean tryPickup(PlayerEntity player) {
+		if (this.isNoClip() && this.isOwner(player) && stackSlot != -1) {
+			if (player.getInventory().getStack(stackSlot).isEmpty()) { // yayyyy
+				player.getInventory().setStack(stackSlot, this.asItemStack());
+				return true;
+			}
+			if (stackSlot == PlayerInventory.OFF_HAND_SLOT && player.getOffHandStack().isEmpty()) {
+				player.getInventory().setStack(PlayerInventory.OFF_HAND_SLOT, this.asItemStack());
+				return true;
+			}
+		}
 		return super.tryPickup(player) || this.isNoClip() && this.isOwner(player) && player.getInventory().insertStack(this.asItemStack());
 	}
 
@@ -149,17 +184,14 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
-		if (nbt.contains("Hammer", 10)) {
-			this.setItemStack(ItemStack.fromNbt(nbt.getCompound("Hammer")));
-		}
-
 		this.dealtDamage = nbt.getBoolean("DealtDamage");
+		this.stackSlot = nbt.getInt("StackSlot");
 	}
 
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
-		nbt.put("Hammer", this.getDataTracker().get(THROWN_ITEM));
 		nbt.putBoolean("DealtDamage", this.dealtDamage);
+		nbt.putInt("StackSlot", this.stackSlot);
 	}
 
 	public void age() {

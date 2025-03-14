@@ -2,25 +2,21 @@ package com.thetaciturnone.taccorpstrinkets.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GlassBlock;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.TransparentBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class QuartzGlassBlock extends GlassBlock {
+public class QuartzGlassBlock extends TransparentBlock {
     public QuartzGlassBlock(Settings settings) {
         super(settings);
     }
+
 	protected static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(2.0, 2.0, 2.0, 14.0, 14.0, 14.0);
 	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return COLLISION_SHAPE;

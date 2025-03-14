@@ -6,7 +6,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Quaternionf;
@@ -66,16 +66,16 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
         int light = this.getBrightness(ticks);
 
         // Render the top faces
-        buffer.vertex(alphas[0].x(), alphas[0].y(), alphas[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[1].x(), alphas[1].y(), alphas[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[2].x(), alphas[2].y(), alphas[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[3].x(), alphas[3].y(), alphas[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[0].x(), alphas[0].y(), alphas[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(alphas[1].x(), alphas[1].y(), alphas[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(alphas[2].x(), alphas[2].y(), alphas[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(alphas[3].x(), alphas[3].y(), alphas[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
 
         // Render the underside faces
-        buffer.vertex(alphas[3].x(), alphas[3].y(), alphas[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[2].x(), alphas[2].y(), alphas[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[1].x(), alphas[1].y(), alphas[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light).next();
-        buffer.vertex(alphas[0].x(), alphas[0].y(), alphas[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light).next();
+        buffer.vertex(alphas[3].x(), alphas[3].y(), alphas[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(alphas[2].x(), alphas[2].y(), alphas[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(alphas[1].x(), alphas[1].y(), alphas[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(alphas[0].x(), alphas[0].y(), alphas[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
     }
 
     @Override
@@ -98,8 +98,8 @@ public class ShockwaveParticle extends SpriteBillboardParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public record Factory(SpriteProvider sprites) implements ParticleFactory<DefaultParticleType> {
-        public Particle createParticle(DefaultParticleType type, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    public record Factory(SpriteProvider sprites) implements ParticleFactory<SimpleParticleType> {
+        public Particle createParticle(SimpleParticleType type, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new ShockwaveParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
         }
     }

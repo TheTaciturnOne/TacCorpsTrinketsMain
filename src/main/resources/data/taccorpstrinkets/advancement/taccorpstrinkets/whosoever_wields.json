@@ -1,0 +1,34 @@
+{
+  "parent": "taccorpstrinkets:taccorpstrinkets/root",
+  "criteria": {
+    "thrown_hammer": {
+      "conditions": {
+        "damage": {
+          "type": {
+            "direct_entity": {
+              "type": "taccorpstrinkets:thrown_hammer"
+            },
+            "is_projectile": true
+          }
+        }
+      },
+      "trigger": "minecraft:player_hurt_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": "Fling a Quartzite Hammer at a mob",
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "taccorpstrinkets:quartzite_hammer"
+    },
+    "show_toast": true,
+    "title": "Whosoever Wields the Power...."
+  },
+  "requirements": [
+    [
+      "thrown_hammer"
+    ]
+  ]
+}

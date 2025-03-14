@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EEE",
+    "TXT",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:light_gray_wool"
+    },
+    "X": {
+      "item": "minecraft:white_wool"
+    },
+    "T": {
+      "item": "minecraft:black_wool"
+    },
+    "E": {
+      "item": "minecraft:brown_wool"
+    }
+  },
+  "result": {
+    "id": "taccorpstrinkets:tac_plushie"
+  }
+}

@@ -3,18 +3,21 @@ package com.thetaciturnone.taccorpstrinkets.item;
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
 import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
+import com.thetaciturnone.taccorpstrinkets.registries.TacEnchantmentEffects;
 import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
-import com.thetaciturnone.taccorpstrinkets.utils.TaccorpsUtil;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.EnchantmentEffectComponentTypes;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ToolMaterial;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Style;
@@ -22,49 +25,53 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ShatteredHammerItem extends PickaxeItem {
-    public ShatteredHammerItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
-        super(toolMaterial, attackDamage, attackSpeed, settings);
+public class ShatteredHammerItem extends PickaxeItem implements ProjectileItem {
+    public ShatteredHammerItem(ToolMaterial toolMaterial, Item.Settings settings) {
+        super(toolMaterial, settings);
     }
+
 	@Override
-	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+	public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		target.damageShield(3);
 		spawnHammerSlamParticles(target);
-		if (attacker.fallDistance > 1.5F && !attacker.isFallFlying() && TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.SLAMMING, attacker)) {
-			float h = attacker.fallDistance;
-			float i;
-			if (h <= 5.0f){
-				i = h + 1;
-			} else if (h <= 10.0f){
-				i = h + 2;
-			}
-			else if (h < 25.0f){
-				i = h + 4;
-			}
-			else if (h >= 25.0f){
-				i = h + 5;
-			} else i = h;
-			target.damage(TacDamage.create(attacker.getWorld(), TacDamage.HAMMER_POWERSLAM, attacker), i);
-			target.getWorld().playSound(null, target.getX(), target.getY(), target.getZ(), TacCorpsTrinkets.HAMMER_POWERSLAM, SoundCategory.NEUTRAL, 2.0f, 1.0f);
-			spawnHammerWaveParticle(target);
-			attacker.addVelocity(0, 1.2, 0);
-			attacker.velocityModified = true;
-		}
 		playHammerSlamSound(target);
-		return super.postHit(stack, target, attacker);
+		super.postDamageEntity(stack, target, attacker);
 	}
-	public void spawnHammerWaveParticle(LivingEntity player) {
-		if (player.getWorld() instanceof ServerWorld serverWorld) {
-			serverWorld.spawnParticles(TacCorpsTrinkets.HAMMER_WAVE, player.getX(), player.getBodyY(0.5), player.getZ() , 1, 0, 0.0, 0, 0.0);
+
+	@Override
+	public float getBonusAttackDamage(Entity target, float baseAttackDamage, DamageSource damageSource) {
+		ItemStack stack = damageSource.getWeaponStack();
+		if (damageSource.getAttacker() instanceof LivingEntity attacker && stack != null) {
+			if (attacker.fallDistance > 1.5F && !attacker.isFallFlying() && EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.SMASH_DAMAGE_PER_FALLEN_BLOCK)) {
+				float h = attacker.fallDistance;
+				float damage;
+				if (h <= 2.0f) {
+					damage = (h / 5) + 1;
+				} else if (h <= 10.0f) {
+					damage = (h / 5) + 2;
+				} else if (h < 25.0f) {
+					damage =  (h / 5) + 4;
+				} else if (h >= 25.0f) {
+					damage = Math.min((h / 5) + 5, 35); // new formula yayyyyy
+				} else damage = h;
+				target.getWorld().playSound(null, target.getX(), target.getY(), target.getZ(), TacCorpsTrinkets.HAMMER_POWERSLAM, SoundCategory.NEUTRAL, 2.0f, 1.0f);
+				spawnHammerWaveParticle(target);
+				attacker.addVelocity(0, 1.2, 0);
+				attacker.velocityModified = true;
+				return damage;
+			}
+		}
+		return super.getBonusAttackDamage(target, baseAttackDamage, damageSource);
+	}
+
+	public void spawnHammerWaveParticle(Entity entity) {
+		if (entity.getWorld() instanceof ServerWorld serverWorld) {
+			serverWorld.spawnParticles(TacCorpsTrinkets.HAMMER_WAVE, entity.getX(), entity.getBodyY(0.5), entity.getZ() , 1, 0, 0.0, 0, 0.0);
 		}
 	}
 
@@ -86,7 +93,7 @@ public class ShatteredHammerItem extends PickaxeItem {
 		return UseAction.SPEAR;
 	}
 
-	public int getMaxUseTime(ItemStack stack) {
+	public int getMaxUseTime(ItemStack stack, LivingEntity user) {
 		return 72000;
 	}
 
@@ -94,13 +101,13 @@ public class ShatteredHammerItem extends PickaxeItem {
 		ItemStack itemStack = user.getStackInHand(hand);
 		if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
 			return TypedActionResult.fail(itemStack);
-		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.FLINGING, user)) {
+		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.THROWABLE)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
-		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.VAULTING, user)) {
+		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.VAULT)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
-		} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.BOOSTING, user)) {
+		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.TRIDENT_SPIN_ATTACK_STRENGTH)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
 		}
@@ -109,13 +116,11 @@ public class ShatteredHammerItem extends PickaxeItem {
 
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		if (user instanceof PlayerEntity playerEntity) {
-			if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.FLINGING, user)) {
-				int i = this.getMaxUseTime(stack) - remainingUseTicks;
-				if (i >= 8) {
+			if (EnchantmentHelper.hasAnyEnchantmentsWith(stack, TacEnchantmentEffects.THROWABLE)) {
+				int i = this.getMaxUseTime(stack, user) - remainingUseTicks;
+				if (i >= 8 && stack.getDamage() < stack.getMaxDamage()) {
 					if (!world.isClient()) {
-						stack.damage(1, playerEntity, (p) -> {
-							p.sendToolBreakStatus(user.getActiveHand());
-						});
+						stack.damage(1, playerEntity, LivingEntity.getSlotForHand(user.getActiveHand()));
 						ThrownHammerEntity tridentEntity = new ThrownHammerEntity(world, playerEntity, stack);
 						tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F * 0.5F, 1.0F);
 						if (playerEntity.getAbilities().creativeMode) {
@@ -129,8 +134,8 @@ public class ShatteredHammerItem extends PickaxeItem {
 						}
 					}
 				}
-			} else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.VAULTING, user)) {
-				int i = this.getMaxUseTime(stack) - remainingUseTicks;
+			} else if (EnchantmentHelper.hasAnyEnchantmentsWith(stack, TacEnchantmentEffects.VAULT)) {
+				int i = this.getMaxUseTime(stack, user) - remainingUseTicks;
 				if (i >= 4) {
 					playerEntity.getItemCooldownManager().set(this, 30);
 					playerEntity.getItemCooldownManager().set(TacItems.QUARTZITE_HAMMER, 20);
@@ -168,12 +173,12 @@ public class ShatteredHammerItem extends PickaxeItem {
 					}
 					world.playSound(null, user.getX(), user.getY(), user.getZ(), TacCorpsTrinkets.HAMMER_SHOCKWAVE, SoundCategory.NEUTRAL, 2.0f, 1.0f);
 					world.addParticle(TacCorpsTrinkets.HAMMER_WAVE, user.getX(), user.getY() + 0.2, user.getZ(), 0, 0, 0);
-					playerEntity.addVelocity(0, 1, 0);
+					playerEntity.addVelocity(0, playerEntity.isOnGround() ? 1.5 : 1.0, 0); // gives increased velocity when on the ground
 					user.velocityModified = true;
 				}
 			}
-			else if (TaccorpsUtil.hasEnchantment(TacCorpsTrinkets.BOOSTING, user)) {
-				int i = this.getMaxUseTime(stack) - remainingUseTicks;
+			else if (EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.TRIDENT_SPIN_ATTACK_STRENGTH)) {
+				int i = this.getMaxUseTime(stack, user) - remainingUseTicks;
 				if (i >= 4) {
 					playerEntity.getItemCooldownManager().set(this, 60);
 					playerEntity.getItemCooldownManager().set(TacItems.QUARTZITE_HAMMER, 40);
@@ -188,7 +193,7 @@ public class ShatteredHammerItem extends PickaxeItem {
 					k *= n / m;
 					l *= n / m;
 					playerEntity.addVelocity(h, k, l);
-					playerEntity.useRiptide(20);
+					playerEntity.useRiptide(20, 10.0f, stack);
 					if (playerEntity.isOnGround()) {
 						playerEntity.move(MovementType.SELF, new Vec3d(0.0, 1.1999999284744263, 0.0));
 					}
@@ -199,9 +204,16 @@ public class ShatteredHammerItem extends PickaxeItem {
 		}
 	}
 
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+	@Override
+	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
 		tooltip.add(Text.translatable("item.taccorpstrinkets.shattered_quartzite_hammer.tooltip").setStyle(Style.EMPTY.withColor(0xd0c6b6)));
-        super.appendTooltip(stack, world, tooltip, context);
-    }
+		super.appendTooltip(stack, context, tooltip, type);
+	}
+
+	@Override
+	public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
+		ThrownHammerEntity hammerEntity = new ThrownHammerEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1));
+		hammerEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+		return hammerEntity;
+	}
 }

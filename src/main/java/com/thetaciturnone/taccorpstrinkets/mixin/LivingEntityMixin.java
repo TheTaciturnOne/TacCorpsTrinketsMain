@@ -26,9 +26,6 @@ public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	public abstract ItemStack getMainHandStack();
 
-	@Shadow
-	public abstract boolean hasStatusEffect(StatusEffect effect);
-
 	@ModifyReturnValue(method = "disablesShield", at = @At("RETURN"))
     public boolean tacCorp$hammerDisablesShield(boolean original) {
         if (this.getMainHandStack().getItem() instanceof QuartziteHammerItem) {
@@ -37,13 +34,4 @@ public abstract class LivingEntityMixin extends Entity {
 		return original;
 	}
 
-	@WrapOperation(method = "tickStatusEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V"))
-	private void tacCorp$stunnedParticles(World instance, ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Operation<Void> original) {
-		if (this.hasStatusEffect(TacCorpsTrinkets.STUNNED)) {
-			original.call(instance, ParticleTypes.END_ROD, x, y, z, 0.0, 0.0, 0.0); // if you use the original velocity they go flying lmao, we can add our own velocity if we want, maybe something that flies slightly outward from the player?
-		}
-		else {
-			original.call(instance, parameters, x, y, z, velocityX, velocityY, velocityZ);
-		}
-	}
 }

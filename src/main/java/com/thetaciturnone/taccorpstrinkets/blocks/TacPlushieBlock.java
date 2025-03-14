@@ -1,5 +1,6 @@
 package com.thetaciturnone.taccorpstrinkets.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.blocks.entities.TacPlushieBlockEntity;
 import net.minecraft.block.*;
@@ -68,7 +69,12 @@ public class TacPlushieBlock extends BlockWithEntity implements Waterloggable {
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, TacCorpsTrinkets.TAC_PLUSH_BLOCK_ENTITY, TacPlushieBlockEntity::tick);
+		return validateTicker(type, TacCorpsTrinkets.TAC_PLUSH_BLOCK_ENTITY, TacPlushieBlockEntity::tick);
+	}
+
+	@Override
+	protected MapCodec<? extends BlockWithEntity> getCodec() {
+		return createCodec(TacPlushieBlock::new);
 	}
 
 	public FluidState getFluidState(BlockState state) {
@@ -87,7 +93,7 @@ public class TacPlushieBlock extends BlockWithEntity implements Waterloggable {
     }
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
 			world.playSound(null, pos, TacCorpsTrinkets.TAC_BOOPED_SOUND_EVENT, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			BlockEntity tacDetection = world.getBlockEntity(pos);

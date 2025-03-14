@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "TacCorp's Trinkets",
-  "description": "Taccorp's all-new Tac merch and weapons! NOW ON FABRIC!",
+  "description": "Taccorp's all-new Tac merch and weapons!",
   "authors": [
     "TheTaciturnOne - Owner, Coder",
     "HollowedWanderer - Texturer",
@@ -35,7 +35,7 @@
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "~1.20.1",
+    "minecraft": "~1.21.1",
     "java": ">=17",
     "trinkets": "*"
   },

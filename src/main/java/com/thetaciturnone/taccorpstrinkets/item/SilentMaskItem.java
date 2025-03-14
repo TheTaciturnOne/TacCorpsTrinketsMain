@@ -4,14 +4,12 @@ import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,16 +35,10 @@ public class SilentMaskItem extends TrinketItem {
 		return ItemStack.EMPTY;
 	}
 
-	public static int getOffset(ItemStack stack) {
-		if (stack.getNbt() == null) {
-			return 0;
-		}
-		return stack.getNbt().getInt("offset");
+	@Override
+	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+		tooltip.add(Text.translatable("item.taccorpstrinkets.mask_of_silence.tooltip").setStyle(Style.EMPTY.withColor(0xd0c6b6)));
+		super.appendTooltip(stack, context, tooltip, type);
 	}
 
-	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(Text.translatable("item.taccorpstrinkets.mask_of_silence.tooltip").setStyle(Style.EMPTY.withColor(0xd0c6b6)));
-		super.appendTooltip(stack, world, tooltip, context);
-	}
 }

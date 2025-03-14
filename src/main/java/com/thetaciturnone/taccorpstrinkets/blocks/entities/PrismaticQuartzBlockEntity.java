@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -34,7 +35,7 @@ public class PrismaticQuartzBlockEntity extends BlockEntity {
 			}
 			Box box = new Box(pos).expand(10);
 			for (LivingEntity entity : world.getNonSpectatingEntities(LivingEntity.class, box)) {
-				if (entity.isUndead()) {
+				if (entity.getType().isIn(EntityTypeTags.UNDEAD)) {
 					if (l % 80 == 0) {
 						entity.setFireTicks(40);
 					}

@@ -19,6 +19,7 @@ import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -62,25 +63,25 @@ public class TacCorpsTrinketsClient implements ClientModInitializer {
 		ParticleFactoryRegistry.getInstance().register(TacCorpsTrinkets.HAMMER_SLAM, HammerSlamParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(TacCorpsTrinkets.HAMMER_WAVE, ShockwaveParticle.Factory::new);
 
-		BlockEntityRendererRegistry.register(TacCorpsTrinkets.TAC_PLUSH_BLOCK_ENTITY, TacPlushieBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(TacCorpsTrinkets.TAC_PLUSH_BLOCK_ENTITY, TacPlushieBlockEntityRenderer::new);
 
 		ModelLoadingPlugin.register((context) -> {
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "quartzite_hammer_handheld", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "shattered_quartzite_hammer_handheld", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "mask_of_silence_worn", "inventory"));
+			context.addModels(TacCorpsTrinkets.id("item/quartzite_hammer_handheld"));
+			context.addModels(TacCorpsTrinkets.id("item/shattered_quartzite_hammer_handheld"));
+			context.addModels(TacCorpsTrinkets.id("item/mask_of_silence_worn"));
 
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "dedede_quartzite_hammer", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "dedede_quartzite_hammer_handheld", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "pico_pico_quartzite_hammer", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "pico_pico_quartzite_hammer_handheld", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "hextech_quartzite_hammer", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "hextech_quartzite_hammer_handheld", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "spamton_quartzite_hammer", "inventory"));
-			context.addModels(new ModelIdentifier(TacCorpsTrinkets.MOD_ID, "spamton_quartzite_hammer_handheld", "inventory"));
+			context.addModels(TacCorpsTrinkets.id("item/dedede_quartzite_hammer"));
+			context.addModels(TacCorpsTrinkets.id("item/dedede_quartzite_hammer_handheld"));
+			context.addModels(TacCorpsTrinkets.id("item/pico_pico_quartzite_hammer"));
+			context.addModels(TacCorpsTrinkets.id("item/pico_pico_quartzite_hammer_handheld"));
+			context.addModels(TacCorpsTrinkets.id("item/hextech_quartzite_hammer"));
+			context.addModels(TacCorpsTrinkets.id("item/hextech_quartzite_hammer_handheld"));
+			context.addModels(TacCorpsTrinkets.id("item/spamton_quartzite_hammer"));
+			context.addModels(TacCorpsTrinkets.id("item/spamton_quartzite_hammer_handheld"));
 		});
 	}
 
 	public static void registerBlockingModelPredicateProviders(Item item) {
-		ModelPredicateProviderRegistry.register(item, new Identifier("blocking"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f);
+		ModelPredicateProviderRegistry.register(item, Identifier.of("blocking"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f);
 	}
 }

@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "id": "taccorpstrinkets:netherite_strengthened_quartz_glass"
+    },
+    "title": "UNBREAKABLE (sort of)",
+    "description": "Upgrade that pathetic Quartz Glass to something better",
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true
+  },
+  "parent": "taccorpstrinkets:taccorpstrinkets/in_case_of_emergency",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "taccorpstrinkets:netherite_strengthened_quartz_glass"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
