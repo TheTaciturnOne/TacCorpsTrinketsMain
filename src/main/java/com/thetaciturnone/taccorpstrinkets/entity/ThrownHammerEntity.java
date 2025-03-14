@@ -41,11 +41,11 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		super(TacEntities.THROWN_HAMMER, owner, world, stack, null);
 		this.dataTracker.set(THROWN_ITEM,  stack);
 		if (owner instanceof PlayerEntity playerEntity) {
-			int slot = playerEntity.getInventory().getSlotWithStack(stack);
+			int slot = playerEntity.getInventory().getSlotWithStack(stack); // prioritizes main hand
 			if (slot == -1 && ItemStack.areItemsAndComponentsEqual(playerEntity.getOffHandStack(), stack)) {
 				slot = PlayerInventory.OFF_HAND_SLOT;
 			}
-			this.setStackSlot(slot); // preserves the stack slot rahhh!!!
+			this.stackSlot = slot; // preserves the stack slot rahhh!!!
 		}
 	}
 
@@ -70,14 +70,6 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		this.getDataTracker().set(THROWN_ITEM, stack);
 	}
 
-	public int getStackSlot() {
-		return stackSlot;
-	}
-
-	public void setStackSlot(int slot) {
-		stackSlot = slot;
-	}
-
 	@Override
 	protected void initDataTracker(DataTracker.Builder builder) {
 		super.initDataTracker(builder);
@@ -98,7 +90,6 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 					this.lastRenderY = this.getY();
 				}
 
-				double d = 0.05;
 				this.setVelocity(this.getVelocity().multiply(0.9D).add(vec3d.normalize().multiply(0.25D)));
 				if (this.returnTimer == 0) {
 					this.playSound(TacCorpsTrinkets.HAMMER_THROW, 10.0F, 1.0F);
@@ -158,16 +149,16 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		this.playSound(TacCorpsTrinkets.HAMMER_SLAMMED, 1.0F, 1.0F);
 	}
 	protected boolean tryPickup(PlayerEntity player) {
-		if (this.isNoClip() && this.isOwner(player) && stackSlot != -1) {
-			if (player.getInventory().getStack(stackSlot).isEmpty()) { // yayyyy
+		if (this.isNoClip() && this.isOwner(player) && stackSlot != -1) { // if hammer is returning and owned by the player and stack slot is valid slot
+			if (player.getInventory().getStack(stackSlot).isEmpty()) { // checks main inventory first
 				player.getInventory().setStack(stackSlot, this.asItemStack());
 				return true;
 			}
-			if (stackSlot == PlayerInventory.OFF_HAND_SLOT && player.getOffHandStack().isEmpty()) {
+			if (stackSlot == PlayerInventory.OFF_HAND_SLOT && player.getOffHandStack().isEmpty()) { // checks offhand if slot not found in main inventory
 				player.getInventory().setStack(PlayerInventory.OFF_HAND_SLOT, this.asItemStack());
 				return true;
 			}
-		}
+		} // otherwise defaults to normal insertion behavior
 		return super.tryPickup(player) || this.isNoClip() && this.isOwner(player) && player.getInventory().insertStack(this.asItemStack());
 	}
 
@@ -179,7 +170,6 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		if (this.isOwner(player) || this.getOwner() == null) {
 			super.onPlayerCollision(player);
 		}
-
 	}
 
 	public void readCustomDataFromNbt(NbtCompound nbt) {

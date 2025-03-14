@@ -63,14 +63,14 @@ public class QuartziteHammerItem extends PickaxeItem implements ProjectileItem {
 			if (attacker.fallDistance > 1.5F && !attacker.isFallFlying() && EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.SMASH_DAMAGE_PER_FALLEN_BLOCK)) {
 				float h = attacker.fallDistance;
 				float damage;
-				if (h <= 2.0f) {
+				if (h <= 2.0f) { // new formula yayyyyy
 					damage = (h / 5) + 1;
 				} else if (h <= 10.0f) {
 					damage = (h / 5) + 2;
 				} else if (h < 25.0f) {
 					damage =  (h / 5) + 4;
 				} else if (h >= 25.0f) {
-					damage = Math.min((h / 5) + 5, 35); // new formula yayyyyy
+					damage = Math.min((h / 5) + 5, 35); // max added damage is 35, only possible after falling >= 150 blocks
 				} else damage = h;
 				target.getWorld().playSound(null, target.getX(), target.getY(), target.getZ(), TacCorpsTrinkets.HAMMER_POWERSLAM, SoundCategory.NEUTRAL, 2.0f, 1.0f);
 				spawnHammerWaveParticle(target);
