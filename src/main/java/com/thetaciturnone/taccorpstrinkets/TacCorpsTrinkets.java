@@ -7,6 +7,7 @@ import com.thetaciturnone.taccorpstrinkets.utils.StatusEffectBase;
 import com.thetaciturnone.taccorpstrinkets.world.TacWorldGen;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.Block;
@@ -16,6 +17,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.condition.RandomChanceLootCondition;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -27,7 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TacCorpsTrinkets implements ModInitializer {
-
+	private static final Identifier QUARTZ_ID
+		= Identifier.of("minecraft", "blocks/nether_quartz_ore");
 	public static final String MOD_ID = "taccorpstrinkets";
 	public static final Logger LOGGER = LoggerFactory.getLogger("Taccorp's Trinkets");
 	public static SoundEvent TAC_BOOPED_SOUND_EVENT = Registry.register(Registries.SOUND_EVENT, id("tacplush_booped"), SoundEvent.of(id("tacplush_booped")));
@@ -88,8 +96,17 @@ public class TacCorpsTrinkets implements ModInitializer {
 
 		DispenserBlock.registerProjectileBehavior(TacBlocks.TAC_PLUSHIE.asItem());
 
+		LootTableEvents.MODIFY.register((key, tableBuilder, source, registry) -> {
+			if(QUARTZ_ID.equals(key.getValue())) {
+				LootPool.Builder poolBuilder = LootPool.builder()
+					.rolls(ConstantLootNumberProvider.create(1))
+					.conditionally(RandomChanceLootCondition.builder(0.25f))
+					.with(ItemEntry.builder(TacItems.PRISMATIC_QUARTZ_SHARD))
+					.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 2.0f)).build());
 
-
+				tableBuilder.pool(poolBuilder.build());
+			}
+		});
 
 	}
 
