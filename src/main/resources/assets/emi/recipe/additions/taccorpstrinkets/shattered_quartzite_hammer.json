@@ -1,0 +1,10 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:taccorpstrinkets:quartzite_hammer",
+    "item:minecraft:anvil",
+    "item:minecraft:air",
+    "item:taccorpstrinkets:shattered_quartzite_hammer"
+  ],
+  "text": "taccorpstrinkets.info.shattered_quartzite_hammer"
+}

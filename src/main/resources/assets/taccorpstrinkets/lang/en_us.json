@@ -43,6 +43,8 @@
   "subtitles.taccorpstrinkets.hammer_shatter": "Quartzite Hammer shatters",
   "subtitles.taccorpstrinkets.prismatic_hum": "Prismatic Quartz hums",
 
+  "tag.item.taccorpstrinkets.hammer_enchantable": "Hammer Enchantable",
+
   "itemgroup.taccorpstrinkets.taccorp_trinkets": "Taccorp Trinkets 2.0",
 
   "effect.taccorpstrinkets.stunned": "Stunned",
@@ -63,5 +65,8 @@
   "enchantment.taccorpstrinkets.flinging.desc": "Allows the hammer to be thrown for ranged combat.",
   "enchantment.taccorpstrinkets.slamming.desc": "Adds extra damage to attacks depending on the height fallen.",
   "enchantment.taccorpstrinkets.vaulting.desc": "When released, the hammer will launch the player upwards and create a shockwave that damages surroundings.",
-  "enchantment.taccorpstrinkets.boosting.desc": "Gives the hammer the ability to boost players a short amount in a certain direction"
+  "enchantment.taccorpstrinkets.boosting.desc": "Gives the hammer the ability to boost players a short amount in a certain direction",
+
+  "taccorpstrinkets.info.netherite_slag": "Dropping a netherite ingot into lava that is \"superheated\" with a magma block placed beneath it will melt it down into netherite slag",
+  "taccorpstrinkets.info.shattered_quartzite_hammer": "Sneak and use a hammer on an anvil to shatter it, weakening its stats, physically breaking it, and increasing its ability cooldown. Why would you do this? For lore of course!!! \n\nNote: this cannot be undone"
 }

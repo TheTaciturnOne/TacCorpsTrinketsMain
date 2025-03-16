@@ -1,0 +1,6 @@
+{
+  "type": "emi:world_interaction",
+  "left": "item:taccorpstrinkets:netherite_slag",
+  "right": "item:taccorpstrinkets:quartz_crystal_cluster",
+  "output": "item:taccorpstrinkets:quartzite"
+}
