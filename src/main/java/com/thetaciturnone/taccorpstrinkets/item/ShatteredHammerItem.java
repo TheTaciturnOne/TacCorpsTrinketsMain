@@ -142,7 +142,7 @@ public class ShatteredHammerItem extends PickaxeItem implements ProjectileItem {
 					for (LivingEntity entity : world.getNonSpectatingEntities(LivingEntity.class, user.getBoundingBox().expand(4f, 2f, 4f))) {
 						if (QuartziteHammerItem.shockwaveShouldDamage(entity, user)) {
 							entity.takeKnockback(1, user.getX() - entity.getX(), user.getZ() - entity.getZ());
-							entity.damage(TacDamage.create(user.getWorld(), TacDamage.HAMMER_POWERSLAM, user), 8);
+							entity.damage(TacDamage.create(user.getWorld(), TacDamage.HAMMER_SHOCKWAVE, user), entity instanceof PlayerEntity ? 8 : 24);
 						}
 					}
 					if(!world.isClient())
