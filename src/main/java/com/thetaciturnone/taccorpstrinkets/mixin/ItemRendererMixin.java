@@ -2,7 +2,7 @@ package com.thetaciturnone.taccorpstrinkets.mixin;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
-import com.thetaciturnone.taccorpstrinkets.item.ShatteredHammerItem;
+import com.thetaciturnone.taccorpstrinkets.item.BaseHammerItem;
 import com.thetaciturnone.taccorpstrinkets.item.SilentMaskItem;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -25,7 +25,7 @@ public abstract class ItemRendererMixin {
 				return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(QuartziteHammerItem.getHammerModelIdentifier(stack, handheld));
 			}
 		}
-		else if (stack.getItem() instanceof ShatteredHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
+		else if (stack.getItem() instanceof BaseHammerItem && renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND) {
 			return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(TacCorpsTrinkets.id("item/shattered_quartzite_hammer_handheld"));
 		}
 		else if (stack.getItem() instanceof SilentMaskItem && renderMode == ModelTransformationMode.HEAD) {

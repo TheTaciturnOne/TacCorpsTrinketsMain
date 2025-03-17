@@ -7,6 +7,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +21,7 @@ public abstract class HeldItemRendererMixin {
 	private void tacCorp$lowerHammerWhenBoosting(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
 		if (entity.isUsingRiptide() && (stack.isOf(TacItems.QUARTZITE_HAMMER) || stack.isOf(TacItems.SHATTERED_QUARTZITE_HAMMER))) {
 			matrices.translate(0.25f, -0.15f, -0.4f);
-			matrices.multiply(new Quaternionf().rotateX(45f));
+			matrices.multiply(new Quaternionf().rotateX(45f * MathHelper.DEGREES_PER_RADIAN));
 		}
 	}
 

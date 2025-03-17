@@ -2,7 +2,7 @@ package com.thetaciturnone.taccorpstrinkets.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
-import com.thetaciturnone.taccorpstrinkets.item.ShatteredHammerItem;
+import com.thetaciturnone.taccorpstrinkets.item.BaseHammerItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -23,7 +23,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyReturnValue(method = "disablesShield", at = @At("RETURN"))
     public boolean tacCorp$hammerDisablesShield(boolean original) {
-        if (this.getMainHandStack().getItem() instanceof QuartziteHammerItem || this.getMainHandStack().getItem() instanceof ShatteredHammerItem) {
+        if (this.getMainHandStack().getItem() instanceof QuartziteHammerItem || this.getMainHandStack().getItem() instanceof BaseHammerItem) {
             return true;
         }
 		return original;

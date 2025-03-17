@@ -24,9 +24,9 @@ public class TacItems {
 			new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()
 				.attributeModifiers(QuartziteHammerItem.createAttributeModifiers(QuartziteToolMaterial.QUARTZITE, 4, -3F))));
 	public static final Item SHATTERED_QUARTZITE_HAMMER = registerItem("shattered_quartzite_hammer",
-		new ShatteredHammerItem(QuartziteToolMaterial.QUARTZITE,
+		new BaseHammerItem(QuartziteToolMaterial.QUARTZITE,
 			new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()
-				.attributeModifiers(ShatteredHammerItem.createAttributeModifiers(QuartziteToolMaterial.QUARTZITE, 2, -3.2F))));
+				.attributeModifiers(BaseHammerItem.createAttributeModifiers(QuartziteToolMaterial.QUARTZITE, 2, -3.2F))));
 	public static final Item MASK_OF_SILENCE = registerItem("mask_of_silence",
 		new SilentMaskItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).fireproof()));
 

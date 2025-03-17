@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:glass",
+    "minecraft:glass_pane",
+    "taccorpstrinkets:quartz_glass",
+    "taccorpstrinkets:quartz_glass_pane"
+  ]
+}

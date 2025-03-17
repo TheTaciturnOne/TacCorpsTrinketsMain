@@ -12,6 +12,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.Tameable;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -30,8 +31,8 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ShatteredHammerItem extends PickaxeItem implements ProjectileItem {
-    public ShatteredHammerItem(ToolMaterial toolMaterial, Item.Settings settings) {
+public class BaseHammerItem extends PickaxeItem implements ProjectileItem {
+    public BaseHammerItem(ToolMaterial toolMaterial, Item.Settings settings) {
         super(toolMaterial, settings);
     }
 
@@ -101,13 +102,9 @@ public class ShatteredHammerItem extends PickaxeItem implements ProjectileItem {
 		ItemStack itemStack = user.getStackInHand(hand);
 		if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
 			return TypedActionResult.fail(itemStack);
-		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.THROWABLE)) {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
-		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.VAULT)) {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
-		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.TRIDENT_SPIN_ATTACK_STRENGTH)) {
+		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.TRIDENT_SPIN_ATTACK_STRENGTH)
+			|| EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.THROWABLE)
+			|| EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.THROWABLE)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
 		}
@@ -138,35 +135,24 @@ public class ShatteredHammerItem extends PickaxeItem implements ProjectileItem {
 				int i = this.getMaxUseTime(stack, user) - remainingUseTicks;
 				if (i >= 4) {
 					playerEntity.getItemCooldownManager().set(this, 30);
-					playerEntity.getItemCooldownManager().set(TacItems.QUARTZITE_HAMMER, 20);
 					for (LivingEntity entity : world.getNonSpectatingEntities(LivingEntity.class, user.getBoundingBox().expand(4f, 2f, 4f))) {
 						if (QuartziteHammerItem.shockwaveShouldDamage(entity, user)) {
 							entity.takeKnockback(1, user.getX() - entity.getX(), user.getZ() - entity.getZ());
 							entity.damage(TacDamage.create(user.getWorld(), TacDamage.HAMMER_SHOCKWAVE, user), entity instanceof PlayerEntity ? 8 : 24);
 						}
 					}
-					if(!world.isClient())
-					{
-						for (int y = 0; y <= 3; y++)
-						{
-							for (int x = -3; x <= 3; x++)
-							{
-								for (int z = -3; z <= 3; z++)
-								{
-									BlockPos pos = playerEntity.getBlockPos().add(new Vec3i(x, y, z));
-									if(world.getBlockState(pos).isOf(Blocks.GLASS_PANE)) {
-										world.breakBlock(pos, false, user);
-									}
-									if(world.getBlockState(pos).isOf(Blocks.GLASS)) {
-										world.breakBlock(pos, false, user);
-									}
-									if(world.getBlockState(pos).isOf(TacBlocks.QUARTZ_GLASS)) {
-										world.breakBlock(pos, false, user);
-									}
-									if(world.getBlockState(pos).isOf(TacBlocks.QUARTZ_GLASS_PANE)) {
-										world.breakBlock(pos, false, user);
-									}
+					if(!world.isClient()) {
+						var pos = new BlockPos.Mutable();
 
+						for (int y = 0; y <= 3; ++y) {
+							for (int x = -3; x <= 3; ++x) {
+								for (int z = -3; z <= 3; ++z) {
+									pos.set(playerEntity.getBlockPos())
+										.move(x, y, z);
+
+									if (world.getBlockState(pos).isIn(TacCorpsTrinkets.BREAKABLE_GLASS_TAG)) {
+										world.breakBlock(pos, false, user);
+									}
 								}
 							}
 						}
@@ -203,10 +189,13 @@ public class ShatteredHammerItem extends PickaxeItem implements ProjectileItem {
 			}
 		}
 	}
+	public static boolean shockwaveShouldDamage(LivingEntity entity, LivingEntity user) {
+		return entity != user && entity.isAttackable() && !entity.isTeammate(user) && !(entity instanceof Tameable tameable && tameable.getOwner() == user);
+	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-		tooltip.add(Text.translatable("item.taccorpstrinkets.shattered_quartzite_hammer.tooltip").setStyle(Style.EMPTY.withColor(0xd0c6b6)));
+		tooltip.add(Text.translatable(this.getTranslationKey(stack) + ".tooltip").setStyle(Style.EMPTY.withColor(0xd0c6b6)));
 		super.appendTooltip(stack, context, tooltip, type);
 	}
 

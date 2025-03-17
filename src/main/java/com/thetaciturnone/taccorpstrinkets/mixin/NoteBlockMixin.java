@@ -7,6 +7,7 @@ import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +21,7 @@ public class NoteBlockMixin {
 	@WrapOperation(method = "onSyncedBlockEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/enums/NoteBlockInstrument;getSound()Lnet/minecraft/registry/entry/RegistryEntry;"))
 	private RegistryEntry<SoundEvent> tacCorp$tacMeowNoteBlock(NoteBlockInstrument instrument, Operation<RegistryEntry<SoundEvent>> original, BlockState state, World world, BlockPos pos, int type, int data) {
 		if (world.getBlockState(pos.down()).isOf(TacBlocks.TAC_PLUSHIE)) {
-			return RegistryEntry.of(TacCorpsTrinkets.TAC_BOOPED_SOUND_EVENT);
+			return Registries.SOUND_EVENT.getEntry(TacCorpsTrinkets.TAC_BOOPED_SOUND_EVENT);
 		}
 		return original.call(instrument);
 	}

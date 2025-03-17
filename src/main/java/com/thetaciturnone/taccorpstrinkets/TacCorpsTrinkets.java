@@ -63,6 +63,7 @@ public class TacCorpsTrinkets implements ModInitializer {
 	public static BlockEntityType<PrismaticQuartzBlockEntity> PRISMATIC_ENTITY;
 	public static BlockEntityType<TacPlushieBlockEntity> TAC_PLUSH_BLOCK_ENTITY;
 	public static final TagKey<Block> LIGHT_SOURCE_BLOCK_TAG = TagKey.of(Registries.BLOCK.getKey(), id("light_sources"));
+	public static final TagKey<Block> BREAKABLE_GLASS_TAG = TagKey.of(Registries.BLOCK.getKey(), id("breakable_glass"));
 
 	@Override
 	public void onInitialize() {
