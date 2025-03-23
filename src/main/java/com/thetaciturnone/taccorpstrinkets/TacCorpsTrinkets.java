@@ -8,7 +8,6 @@ import com.thetaciturnone.taccorpstrinkets.world.TacWorldGen;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;

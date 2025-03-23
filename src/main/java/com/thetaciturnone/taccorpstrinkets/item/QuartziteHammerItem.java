@@ -1,37 +1,19 @@
 package com.thetaciturnone.taccorpstrinkets.item;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
-import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
-import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
-import com.thetaciturnone.taccorpstrinkets.registries.TacEnchantmentEffects;
 import com.thetaciturnone.taccorpstrinkets.registries.TacItemComponents;
 import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
-import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.component.EnchantmentEffectComponentTypes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.Tameable;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.*;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
-import java.util.List;
 import java.util.Objects;
 
 public class QuartziteHammerItem extends BaseHammerItem implements ProjectileItem {

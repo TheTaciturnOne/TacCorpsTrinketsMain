@@ -2,11 +2,9 @@ package com.thetaciturnone.taccorpstrinkets.item;
 
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
-import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEnchantmentEffects;
 import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
-import net.minecraft.block.Blocks;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -104,7 +102,7 @@ public class BaseHammerItem extends PickaxeItem implements ProjectileItem {
 			return TypedActionResult.fail(itemStack);
 		} else if (EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.TRIDENT_SPIN_ATTACK_STRENGTH)
 			|| EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.THROWABLE)
-			|| EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.THROWABLE)) {
+			|| EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, TacEnchantmentEffects.VAULT)) {
 			user.setCurrentHand(hand);
 			return TypedActionResult.consume(itemStack);
 		}
@@ -189,6 +187,7 @@ public class BaseHammerItem extends PickaxeItem implements ProjectileItem {
 			}
 		}
 	}
+
 	public static boolean shockwaveShouldDamage(LivingEntity entity, LivingEntity user) {
 		return entity != user && entity.isAttackable() && !entity.isTeammate(user) && !(entity instanceof Tameable tameable && tameable.getOwner() == user);
 	}
