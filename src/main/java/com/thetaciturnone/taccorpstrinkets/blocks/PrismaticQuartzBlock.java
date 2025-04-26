@@ -27,11 +27,9 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 	}
 
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-		if (!world.isClient) {
-			BlockPos lightPos1 = pos.down(1);
-			BlockState lightState1 = world.getBlockState(lightPos1);
+		if (!world.isClient()) {
 			boolean bl = state.get(LIT);
-			if (bl != getLitState((WorldAccess) lightState1, pos)) {
+			if (bl != world.getBlockState(pos.down()).isIn(TacCorpsTrinkets.LIGHT_SOURCE_BLOCK_TAG)) {
 				if (bl) {
 					world.scheduleBlockTick(pos, this, 2);
 				} else {
@@ -61,7 +59,7 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return getDefaultState().with(LIT, getLitState(context.getWorld(), context.getBlockPos()));
+		return getDefaultState().with(LIT, context.getWorld().getBlockState(context.getBlockPos().down()).isIn(TacCorpsTrinkets.LIGHT_SOURCE_BLOCK_TAG));
 	}
 
 	public BlockRenderType getRenderType(BlockState state) {
@@ -72,7 +70,7 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		BlockPos lightPos1 = pos.down(1);
 		BlockState lightState1 = world.getBlockState(lightPos1);
-		if (state.get(LIT) && getLitState((WorldAccess) lightState1, pos)) {
+		if (state.get(LIT) && world.getBlockState(pos.down()).isIn(TacCorpsTrinkets.LIGHT_SOURCE_BLOCK_TAG)) {
 			world.setBlockState(pos, state.cycle(LIT), 2);
 		}
 	}
@@ -81,9 +79,6 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 		builder.add(LIT);
 	}
 
-	private boolean getLitState(WorldAccess worldAccess, BlockPos pos) {
-		return worldAccess.getBlockState(pos.down()).isIn(TacCorpsTrinkets.LIGHT_SOURCE_BLOCK_TAG);
-	}
 	static {
 		LIT = RedstoneTorchBlock.LIT;
 	}
