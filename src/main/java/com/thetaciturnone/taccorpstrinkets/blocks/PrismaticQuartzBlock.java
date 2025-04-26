@@ -68,8 +68,6 @@ public class PrismaticQuartzBlock extends BlockWithEntity {
 
 	@Override
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		BlockPos lightPos1 = pos.down(1);
-		BlockState lightState1 = world.getBlockState(lightPos1);
 		if (state.get(LIT) && world.getBlockState(pos.down()).isIn(TacCorpsTrinkets.LIGHT_SOURCE_BLOCK_TAG)) {
 			world.setBlockState(pos, state.cycle(LIT), 2);
 		}
