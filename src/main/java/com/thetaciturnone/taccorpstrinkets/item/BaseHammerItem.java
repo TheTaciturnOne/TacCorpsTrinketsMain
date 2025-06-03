@@ -4,6 +4,7 @@ import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntity;
 import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEnchantmentEffects;
+import com.thetaciturnone.taccorpstrinkets.registries.TacItemComponents;
 import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
 import net.minecraft.component.EnchantmentEffectComponentTypes;

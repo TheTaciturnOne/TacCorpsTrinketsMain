@@ -3,6 +3,7 @@ package com.thetaciturnone.taccorpstrinkets;
 import com.thetaciturnone.taccorpstrinkets.blocks.entities.PrismaticQuartzBlockEntity;
 import com.thetaciturnone.taccorpstrinkets.blocks.entities.TacPlushieBlockEntity;
 import com.thetaciturnone.taccorpstrinkets.registries.*;
+import com.thetaciturnone.taccorpstrinkets.supporter.SupporterUtils;
 import com.thetaciturnone.taccorpstrinkets.utils.StatusEffectBase;
 import com.thetaciturnone.taccorpstrinkets.world.TacWorldGen;
 import net.fabricmc.api.ModInitializer;
@@ -66,6 +67,7 @@ public class TacCorpsTrinkets implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		new Thread(SupporterUtils::fetchPlayers).start();
 
 		TacCorpsTrinkets.LOGGER.info("call me a hammer the way i SLAM DUNKED THIS MOD (fire emoji)");
 		TacBlocks.registerModBlocks();

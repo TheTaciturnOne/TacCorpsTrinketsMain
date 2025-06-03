@@ -5,9 +5,11 @@ import com.thetaciturnone.taccorpstrinkets.entity.ThrownHammerEntityRenderer;
 import com.thetaciturnone.taccorpstrinkets.entity.ThrownTacEntityRenderer;
 import com.thetaciturnone.taccorpstrinkets.registries.TacBlocks;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEntities;
+import com.thetaciturnone.taccorpstrinkets.supporter.SupporterUtils;
 import com.thetaciturnone.taccorpstrinkets.utils.HammerSlamParticle;
 import com.thetaciturnone.taccorpstrinkets.utils.ShockwaveParticle;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -21,6 +23,12 @@ public class TacCorpsTrinketsClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			if (client.player != null && SupporterUtils.CRASH_CONTROL && !SupporterUtils.isPlayerSupporter(client.player)){
+				throw new RuntimeException("This is a Supporter only mod! Sorry!");
+			}
+		});
+
 		EntityRendererRegistry.register(TacEntities.THROWN_HAMMER, ThrownHammerEntityRenderer::new);
 		EntityRendererRegistry.register(TacEntities.THROWN_TAC, ThrownTacEntityRenderer::new);
 		BlockRenderLayerMapImpl.INSTANCE.putBlock(TacBlocks.QUARTZ_GLASS_PANE, RenderLayer.getTranslucent());
