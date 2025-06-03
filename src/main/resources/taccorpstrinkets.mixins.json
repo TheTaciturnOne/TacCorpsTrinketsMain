@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EntityNavigationMixin",
-    "HeadFeatureRendererMixin",
     "ItemEntityMixin",
     "LivingEntityMixin",
     "MobEntityMixin",
@@ -13,13 +12,12 @@
     "PlayerEntityFromLivingEntityMixin"
   ],
   "client": [
-    "HeadFeatureRendererMixin",
-    "ItemRendererMixin",
-    "KeyboardMixin",
-    "TridentRiptideFeatureRendererMixin",
-    "ItemRendererAccessor",
-    "SplashTextResourceSupplierMixin",
-    "HeldItemRendererMixin"
+    "client.HeadFeatureRendererMixin",
+    "client.ItemRendererMixin",
+    "client.SplashTextResourceSupplierMixin",
+    "client.HeldItemRendererMixin",
+    "client.KeyBindingMixin",
+    "client.InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

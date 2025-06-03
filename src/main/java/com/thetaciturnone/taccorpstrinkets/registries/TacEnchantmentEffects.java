@@ -10,13 +10,10 @@ import java.util.function.UnaryOperator;
 
 public interface TacEnchantmentEffects {
 
-	RegistryKey<Enchantment> STUNNING = keyOf("stunning");
 	RegistryKey<Enchantment> FLINGING = keyOf("flinging");
-	RegistryKey<Enchantment> SLAMMING = keyOf("slamming");
 	RegistryKey<Enchantment> VAULTING = keyOf("vaulting");
-	RegistryKey<Enchantment> BOOSTING = keyOf("boosting");
 
-	ComponentType<Unit> THROWABLE = registerComponent("throwable", (builder) -> builder.codec(Unit.CODEC));
+	ComponentType<Unit> HAMMER_THROW = registerComponent("hammer_throw", (builder) -> builder.codec(Unit.CODEC));
 	ComponentType<Unit> VAULT = registerComponent("vault", (builder) -> builder.codec(Unit.CODEC));
 
 

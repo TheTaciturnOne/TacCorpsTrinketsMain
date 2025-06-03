@@ -1,4 +1,4 @@
-package com.thetaciturnone.taccorpstrinkets.mixin;
+package com.thetaciturnone.taccorpstrinkets.mixin.client;
 
 import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import net.minecraft.client.render.VertexConsumerProvider;

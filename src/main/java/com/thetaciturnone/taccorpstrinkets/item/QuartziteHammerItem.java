@@ -57,7 +57,7 @@ public class QuartziteHammerItem extends BaseHammerItem implements ProjectileIte
 
 
 	public static int cycleVariant(int current) {
-		if (current < 4) {
+		if (current < 5) {
 			return current + 1;
 		}
 		return 0;
@@ -75,6 +75,7 @@ public class QuartziteHammerItem extends BaseHammerItem implements ProjectileIte
 			case 2 -> "item/pico_pico_quartzite_hammer";
 			case 3 -> "item/hextech_quartzite_hammer";
 			case 4 -> "item/spamton_quartzite_hammer";
+			case 5 -> "item/big_bell_quartzite_hammer";
 			default -> "item/quartzite_hammer";
 		};
 	}

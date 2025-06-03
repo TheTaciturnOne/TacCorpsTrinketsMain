@@ -36,4 +36,14 @@ public class QuartzGlassBlock extends TransparentBlock {
 			world.breakBlock(new BlockPos(pos), false, entity);
 		}
 	}
+
+	@Override
+	public void onEntityLand(BlockView world, Entity entity) {
+
+	}
+
+	@Override
+	public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+
+	}
 }

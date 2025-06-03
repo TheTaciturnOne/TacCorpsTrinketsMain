@@ -1,4 +1,4 @@
-package com.thetaciturnone.taccorpstrinkets.mixin;
+package com.thetaciturnone.taccorpstrinkets.mixin.client;
 
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.resource.SplashTextResourceSupplier;

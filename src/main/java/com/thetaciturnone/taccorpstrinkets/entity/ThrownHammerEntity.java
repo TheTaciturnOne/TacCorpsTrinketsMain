@@ -6,6 +6,7 @@ import com.thetaciturnone.taccorpstrinkets.registries.TacItems;
 import com.thetaciturnone.taccorpstrinkets.utils.TacDamage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,6 +15,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -22,6 +24,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -90,7 +94,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 					this.lastRenderY = this.getY();
 				}
 
-				this.setVelocity(this.getVelocity().multiply(0.9D).add(vec3d.normalize().multiply(0.25D)));
+				this.setVelocity(this.getVelocity().multiply(0.9).add(vec3d.normalize().multiply(0.25)));
 				if (this.returnTimer == 0) {
 					this.playSound(TacCorpsTrinkets.HAMMER_THROW, 10.0F, 1.0F);
 				}
@@ -116,6 +120,27 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 	@Nullable
 	protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
 		return this.dealtDamage ? null : super.getEntityCollision(currentPosition, nextPosition);
+	}
+
+	@Override
+	protected void onBlockHit(BlockHitResult blockHitResult) {
+		BlockState blockState = this.getWorld().getBlockState(blockHitResult.getBlockPos());
+		blockState.onProjectileHit(this.getWorld(), blockState, blockHitResult, this);
+		Vec3d vec3d = blockHitResult.getPos().subtract(this.getX(), this.getY(), this.getZ());
+		this.setVelocity(vec3d);
+		ItemStack itemStack = this.getWeaponStack();
+		World var5 = this.getWorld();
+		if (var5 instanceof ServerWorld serverWorld) {
+			if (itemStack != null) {
+				this.onBlockHitEnchantmentEffects(serverWorld, blockHitResult, itemStack);
+			}
+		}
+		Vec3d vec3d2 = vec3d.normalize().multiply(0.05);
+		this.setPos(this.getX() - vec3d2.x, this.getY() - vec3d2.y, this.getZ() - vec3d2.z);
+		this.playSound(this.getSound(), 4.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+		this.inGround = true;
+		this.shake = 7;
+		this.setCritical(false);
 	}
 
 	protected void onEntityHit(EntityHitResult entityHitResult) {
@@ -146,7 +171,7 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		}
 
 		this.setVelocity(this.getVelocity().multiply(-0.01, -0.1, -0.01));
-		this.playSound(TacCorpsTrinkets.HAMMER_SLAMMED, 1.0F, 1.0F);
+		this.playSound(TacCorpsTrinkets.HAMMER_SLAMMED, 4.0F, 1.0F);
 	}
 	protected boolean tryPickup(PlayerEntity player) {
 		if (this.isNoClip() && this.isOwner(player) && stackSlot != -1) { // if hammer is returning and owned by the player and stack slot is valid slot
@@ -170,6 +195,12 @@ public class ThrownHammerEntity extends PersistentProjectileEntity {
 		if (this.isOwner(player) || this.getOwner() == null) {
 			super.onPlayerCollision(player);
 		}
+	}
+
+	@Override
+	protected void onHit(LivingEntity target) {
+		super.onHit(target);
+		target.addStatusEffect(new StatusEffectInstance(TacCorpsTrinkets.STUNNED, 120, 0));
 	}
 
 	public void readCustomDataFromNbt(NbtCompound nbt) {

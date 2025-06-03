@@ -4,7 +4,7 @@
     "translate": "enchantment.taccorpstrinkets.flinging"
   },
   "effects": {
-    "taccorpstrinkets:throwable": {}
+    "taccorpstrinkets:hammer_throw": {}
   },
   "exclusive_set": "#taccorpstrinkets:exclusive_set/hammer_set",
   "min_cost": {
