@@ -839,12 +839,12 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [11, -7, 0],
-			"translation": [1.75, 2.7, 0.25],
+			"translation": [3.75, 2.7, 0.25],
 			"scale": [0.59, 0.59, 0.59]
 		},
 		"firstperson_lefthand": {
 			"rotation": [11, -7, 0],
-			"translation": [1.75, 2.7, 0.25],
+			"translation": [3.75, 2.7, 0.25],
 			"scale": [0.59, 0.59, 0.59]
 		},
 		"ground": {
