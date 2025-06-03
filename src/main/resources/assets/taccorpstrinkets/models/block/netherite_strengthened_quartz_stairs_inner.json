@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "taccorpstrinkets:block/netherite_strengthened_quartz_block_top",
-    "side": "taccorpstrinkets:block/netherite_strengthened_quartz_block_side",
-    "top": "taccorpstrinkets:block/netherite_strengthened_quartz_block_bottom"
-  }
-}

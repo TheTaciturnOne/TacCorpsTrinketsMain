@@ -33,7 +33,7 @@ public class TacItems {
 	// Item Group
 	public static final ItemGroup TACCORP_TRINKETS = Registry.register(Registries.ITEM_GROUP, TacCorpsTrinkets.id("taccorp_trinkets"),
 		FabricItemGroup.builder().displayName(Text.translatable("itemgroup.taccorpstrinkets.taccorp_trinkets"))
-			.icon(() -> new ItemStack(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_BLOCK)).entries((displayContext, entries) -> {
+			.icon(() -> new ItemStack(TacBlocks.TAC_PLUSHIE)).entries((displayContext, entries) -> {
 				entries.add(NETHERITE_SLAG);
 				entries.add(PRISMATIC_QUARTZ_SHARD);
 				entries.add(QUARTZITE);
@@ -54,12 +54,6 @@ public class TacItems {
 				entries.add(TacBlocks.NETHERITE_FRAME);
 				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_GLASS);
 				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_GLASS_PANE);
-				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_BLOCK);
-				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_SLAB);
-				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_STAIRS);
-				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_BRICKS);
-				entries.add(TacBlocks.NETHERITE_STRENGTHENED_CHISELED_QUARTZ_BLOCK);
-				entries.add(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_PILLAR);
 				entries.add(TacBlocks.NETHERITE_STRENGTHENED_ENGRAVED_QUARTZ_BLOCK);
 				entries.add(TacBlocks.TAC_PLUSHIE);
 			}).build()
