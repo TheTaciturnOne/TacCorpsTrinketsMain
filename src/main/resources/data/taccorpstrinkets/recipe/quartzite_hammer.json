@@ -1,25 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "EWE",
-    "TXT",
-    " # "
+    "CTC",
+    "CAC",
+    " Y "
   ],
   "key": {
-    "#": {
+    "T": {
       "item": "taccorpstrinkets:quartzite"
     },
-    "W": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "X": {
+    "A": {
       "item": "taccorpstrinkets:prismatic_quartz_shard"
     },
-    "T": {
-      "item": "taccorpstrinkets:netherite_strengthened_quartz_block"
+    "C": {
+      "item": "taccorpstrinkets:quartz_crystal"
     },
-    "E": {
-      "item": "taccorpstrinkets:netherite_strengthened_engraved_quartz_block"
+    "Y": {
+      "item": "minecraft:quartz"
     }
   },
   "result": {

@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "taccorpstrinkets:block/netherite_strengthened_chiseled_quartz_top",
-    "side": "taccorpstrinkets:block/netherite_strengthened_chiseled_quartz"
-  }
-}

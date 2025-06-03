@@ -62,30 +62,11 @@ public class TacBlocks {
 	public static final Block NETHERITE_STRENGTHENED_QUARTZ_GLASS_PANE = registerBlock("netherite_strengthened_quartz_glass_pane",
 		new PaneBlock(AbstractBlock.Settings.copy(Blocks.GLASS)
 			.strength(0.3F, 1200.0F).sounds(BlockSoundGroup.GLASS).requiresTool()), false);
-	public static final Block NETHERITE_STRENGTHENED_QUARTZ_BLOCK = registerBlock("netherite_strengthened_quartz_block",
-		new Block(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
-			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
-	public static final Block NETHERITE_STRENGTHENED_QUARTZ_SLAB = registerBlock("netherite_strengthened_quartz_slab",
-		new SlabBlock(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
-			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
-	public static final Block NETHERITE_STRENGTHENED_QUARTZ_STAIRS = registerBlock("netherite_strengthened_quartz_stairs",
-		new StairsBlock(TacBlocks.NETHERITE_STRENGTHENED_QUARTZ_BLOCK.getDefaultState(),
-			AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
-			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
-	public static final Block NETHERITE_STRENGTHENED_QUARTZ_BRICKS = registerBlock("netherite_strengthened_quartz_bricks",
-		new Block(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
-			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
-	public static final Block NETHERITE_STRENGTHENED_CHISELED_QUARTZ_BLOCK = registerBlock("netherite_strengthened_chiseled_quartz_block",
-		new Block(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
-			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
-	public static final Block NETHERITE_STRENGTHENED_QUARTZ_PILLAR = registerBlock("netherite_strengthened_quartz_pillar",
-		new PillarBlock(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
-			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
 	public static final Block NETHERITE_STRENGTHENED_ENGRAVED_QUARTZ_BLOCK = registerBlock("netherite_strengthened_engraved_quartz_block",
 		new Block(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK)
 			.strength(1.2F, 1200.0F).sounds(BlockSoundGroup.NETHERITE).requiresTool()), true);
 	public static final Block TAC_PLUSHIE = registerPlushieBlock("tac_plushie",
-		new TacPlushieBlock(AbstractBlock.Settings.create().mapColor(MapColor.WHITE).instrument(NoteBlockInstrument.GUITAR.GUITAR)
+		new TacPlushieBlock(AbstractBlock.Settings.create().mapColor(MapColor.WHITE).instrument(NoteBlockInstrument.GUITAR)
 			.strength(0.8F).sounds(BlockSoundGroup.WOOL)));
 
 

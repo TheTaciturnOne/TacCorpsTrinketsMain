@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "taccorpstrinkets:block/netherite_strengthened_quartz_bricks"
-  }
-}
