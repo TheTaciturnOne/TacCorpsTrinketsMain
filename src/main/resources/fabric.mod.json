@@ -27,6 +27,9 @@
     ],
     "client": [
       "com.thetaciturnone.taccorpstrinkets.TacCorpsTrinketsClient"
+    ],
+    "cardinal-components-entity": [
+      "com.thetaciturnone.taccorpstrinkets.registries.TacEntityComponents"
     ]
   },
   "mixins": [
@@ -39,6 +42,11 @@
     "minecraft": "~1.21.1",
     "java": ">=17",
     "trinkets": "*"
+  },
+  "custom": {
+    "cardinal-components": [
+      "taccorpstrinkets:hammer_user"
+    ]
   },
   "suggests": {
     "another-mod": "*"

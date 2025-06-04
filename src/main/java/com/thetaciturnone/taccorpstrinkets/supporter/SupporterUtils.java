@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.io.IOException;
@@ -63,13 +64,16 @@ public class SupporterUtils {
 		return cachedPlayers;
 	}
 
-	public static boolean isPlayerSupporter(PlayerEntity player){
-		for (PlayerInfo playerInfo : fetchPlayers()){
-			if(player.getUuidAsString().equals(playerInfo.uuid())){
-				return true;
+	public static boolean isPlayerSupporter(Entity entity){
+		if (entity instanceof PlayerEntity player) {
+			for (PlayerInfo playerInfo : fetchPlayers()) {
+				if (player.getUuidAsString().equals(playerInfo.uuid())) {
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
+		return true; // returns true for non-players :D
 	}
 
 	public record PlayerInfo(String uuid, String name){}

@@ -1,10 +1,15 @@
 package com.thetaciturnone.taccorpstrinkets.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.thetaciturnone.taccorpstrinkets.TacCorpsTrinkets;
+import com.thetaciturnone.taccorpstrinkets.component.HammerUserComponent;
 import com.thetaciturnone.taccorpstrinkets.item.QuartziteHammerItem;
 import com.thetaciturnone.taccorpstrinkets.item.BaseHammerItem;
 import com.thetaciturnone.taccorpstrinkets.registries.TacEnchantmentEffects;
+import com.thetaciturnone.taccorpstrinkets.registries.TacEntityComponents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -46,6 +51,17 @@ public abstract class LivingEntityMixin extends Entity {
 			this.addStatusEffect(new StatusEffectInstance(TacCorpsTrinkets.STUNNED, 30, 0, false, false, true));
 		}
 		return original;
+	}
+
+	@WrapMethod(method = "handleFallDamage")
+	private boolean tacCorp$reducedVaultingFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, Operation<Boolean> original) {
+		if (TacEntityComponents.HAMMER_USER.maybeGet(this).isPresent()) {
+			HammerUserComponent hammerUserComponent = TacEntityComponents.HAMMER_USER.maybeGet(this).get();
+			if (hammerUserComponent.hasBoosted()) {
+				damageMultiplier *= 0.35f;
+			}
+		}
+		return original.call(fallDistance, damageMultiplier, damageSource);
 	}
 
 }

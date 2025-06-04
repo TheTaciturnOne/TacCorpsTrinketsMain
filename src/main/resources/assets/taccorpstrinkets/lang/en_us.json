@@ -50,23 +50,19 @@
   "effect.taccorpstrinkets.stunned": "Stunned",
 
   "death.attack.hammer_throw": "%1$s took a hammer to the face from %2$s",
+  "death.attack.hammer_throw.player": "%1$s took a hammer to the face from %2$s",
   "death.attack.hammer_throw.item": "%1$s took a hammer to the face from %2$s named %3$s",
   "death.attack.hammer_shockwave": "%1$s felt the force of the blast",
   "death.attack.hammer_shockwave.player": "%1$s felt the force of the blast whilst trying to escape %2$s",
   "death.attack.hammer_powerslam": "%1$s was flattened",
   "death.attack.hammer_powerslam.player": "%1$s was flattened by %2$s",
 
-  "enchantment.taccorpstrinkets.stunning": "Stunning",
   "enchantment.taccorpstrinkets.flinging": "Flinging",
-  "enchantment.taccorpstrinkets.slamming": "Slamming",
   "enchantment.taccorpstrinkets.vaulting": "Vaulting",
-  "enchantment.taccorpstrinkets.boosting": "Boosting",
-  "enchantment.taccorpstrinkets.stunning.desc": "Stuns mobs and players for a short amount of time.",
-  "enchantment.taccorpstrinkets.flinging.desc": "Allows the hammer to be thrown for ranged combat.",
-  "enchantment.taccorpstrinkets.slamming.desc": "Adds extra damage to attacks depending on the height fallen.",
-  "enchantment.taccorpstrinkets.vaulting.desc": "When released, the hammer will launch the player upwards and create a shockwave that damages surroundings.",
-  "enchantment.taccorpstrinkets.boosting.desc": "Gives the hammer the ability to boost players a short amount in a certain direction",
+  "enchantment.taccorpstrinkets.flinging.desc": "Allows the hammer to be thrown for ranged combat. Thrown hammers will stun mobs and players for a short amount of time, but the user will get stunned if they are hit while charging",
+  "enchantment.taccorpstrinkets.vaulting.desc": "Gives the hammer the ability to boost players a short amount in a certain direction. If used in the air, the hammer will launch the player upwards and create a shockwave that damages surroundings",
 
   "taccorpstrinkets.info.netherite_slag": "Dropping a netherite ingot into lava that is \"superheated\" with a magma block placed beneath it will melt it down into netherite slag",
-  "taccorpstrinkets.info.shattered_quartzite_hammer": "Sneak and use a hammer on an anvil to shatter it, weakening its stats, physically breaking it, and increasing its ability cooldown. Why would you do this? For lore of course!!! \n\nNote: this cannot be undone"
+  "taccorpstrinkets.info.shattered_quartzite_hammer": "Sneak and use a hammer on an anvil to shatter it, weakening its stats, physically breaking it, and increasing its ability cooldown. Why would you do this? For lore of course!!!",
+  "taccorpstrinkets.info.repaired_quartzite_hammer": "A shattered hammer can be repaired by sneaking and using it on a quartz cluster, which will restore the hammer to its former glory"
 }

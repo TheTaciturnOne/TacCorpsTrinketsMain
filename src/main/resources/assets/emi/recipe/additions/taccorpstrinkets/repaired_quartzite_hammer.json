@@ -1,0 +1,10 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:taccorpstrinkets:shattered_quartzite_hammer",
+    "item:taccorpstrinkets:quartz_crystal_cluster",
+    "item:minecraft:air",
+    "item:taccorpstrinkets:quartzite_hammer"
+  ],
+  "text": "taccorpstrinkets.info.repaired_quartzite_hammer"
+}

@@ -26,7 +26,7 @@ public abstract class ItemRendererMixin {
 	public BakedModel tacCorp$largeHammerModel(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		if (stack.getItem() instanceof QuartziteHammerItem) {
 			boolean handheld = (renderMode != ModelTransformationMode.GUI && renderMode != ModelTransformationMode.GROUND);
-			if (QuartziteHammerItem.getVariant(stack) != 0 || handheld) { // trying to parse in the default gui hammer model breaks it, so now it skips that one
+			if ((QuartziteHammerItem.getSupporterHeldStatus(stack) ? QuartziteHammerItem.getVariant(stack) : 0) != 0 || handheld) { // trying to parse in the default gui hammer model breaks it, so now it skips that one
 				return this.getModels().getModelManager().getModel(QuartziteHammerItem.getHammerModelIdentifier(stack, handheld));
 			}
 		}

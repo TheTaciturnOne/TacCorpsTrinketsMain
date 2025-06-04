@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "taccorpstrinkets:netherite_strengthened_quartz_block"
+      "id": "taccorpstrinkets:netherite_strengthened_engraved_quartz_block"
     },
     "title": "Product Placement Works!",
     "description": "Collect all of the Netherite-Strengthened Quartz variants",
@@ -17,22 +17,7 @@
         "items": [
           {
             "items": [
-              "taccorpstrinkets:netherite_strengthened_quartz_block"
-            ]
-          },
-          {
-            "items": [
-              "taccorpstrinkets:netherite_strengthened_chiseled_quartz_block"
-            ]
-          },
-          {
-            "items": [
               "taccorpstrinkets:netherite_strengthened_engraved_quartz_block"
-            ]
-          },
-          {
-            "items": [
-              "taccorpstrinkets:netherite_strengthened_quartz_bricks"
             ]
           },
           {
@@ -43,21 +28,6 @@
           {
             "items": [
               "taccorpstrinkets:netherite_strengthened_quartz_glass_pane"
-            ]
-          },
-          {
-            "items": [
-              "taccorpstrinkets:netherite_strengthened_quartz_pillar"
-            ]
-          },
-          {
-            "items": [
-              "taccorpstrinkets:netherite_strengthened_quartz_slab"
-            ]
-          },
-          {
-            "items": [
-              "taccorpstrinkets:netherite_strengthened_quartz_stairs"
             ]
           }
         ]

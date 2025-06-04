@@ -55,8 +55,6 @@ public class TacCorpsTrinketsClient implements ClientModInitializer {
 			context.addModels(TacCorpsTrinkets.id("item/dedede_quartzite_hammer_handheld"));
 			context.addModels(TacCorpsTrinkets.id("item/pico_pico_quartzite_hammer"));
 			context.addModels(TacCorpsTrinkets.id("item/pico_pico_quartzite_hammer_handheld"));
-			context.addModels(TacCorpsTrinkets.id("item/hextech_quartzite_hammer"));
-			context.addModels(TacCorpsTrinkets.id("item/hextech_quartzite_hammer_handheld"));
 			context.addModels(TacCorpsTrinkets.id("item/spamton_quartzite_hammer"));
 			context.addModels(TacCorpsTrinkets.id("item/spamton_quartzite_hammer_handheld"));
 			context.addModels(TacCorpsTrinkets.id("item/big_bell_quartzite_hammer"));

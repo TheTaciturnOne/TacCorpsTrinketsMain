@@ -48,7 +48,7 @@ public class TacBlocks {
 		new Block(AbstractBlock.Settings.copy(Blocks.STONE)
 			.strength(0.8F).sounds(BlockSoundGroup.STONE).requiresTool()), false);
 	public static final Block QUARTZ_GLASS = registerBlock("quartz_glass",
-		new QuartzGlassBlock(AbstractBlock.Settings.copy(Blocks.GLASS)
+		new QuartzGlassBlock(AbstractBlock.Settings.copy(Blocks.GLASS).noCollision()
 			.strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque().requiresTool()), false);
 	public static final Block QUARTZ_GLASS_PANE = registerBlock("quartz_glass_pane",
 		new QuartzGlassPaneBlock(AbstractBlock.Settings.copy(Blocks.GLASS)

@@ -29,6 +29,7 @@ public class QuartzGlassBlock extends TransparentBlock {
 	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return VoxelShapes.fullCube();
 	}
+
 	@Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
@@ -46,4 +47,5 @@ public class QuartzGlassBlock extends TransparentBlock {
 	public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
 
 	}
+
 }
