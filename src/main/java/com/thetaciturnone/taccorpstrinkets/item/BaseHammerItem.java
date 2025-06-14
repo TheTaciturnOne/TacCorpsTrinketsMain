@@ -101,7 +101,7 @@ public class BaseHammerItem extends PickaxeItem implements ProjectileItem {
 				if (EnchantmentHelper.hasAnyEnchantmentsWith(stack, TacEnchantmentEffects.HAMMER_THROW)) {
 					if (useTime >= 12 && stack.getDamage() < stack.getMaxDamage()) {
 						if (!world.isClient()) {
-							this.setCooldowns(playerEntity, 70);
+							this.setCooldowns(playerEntity, 45);
 							stack.damage(1, playerEntity, LivingEntity.getSlotForHand(user.getActiveHand()));
 							ThrownHammerEntity thrownHammerEntity = new ThrownHammerEntity(world, playerEntity, stack);
 							thrownHammerEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F * 0.5F, 1.0F);
@@ -127,7 +127,7 @@ public class BaseHammerItem extends PickaxeItem implements ProjectileItem {
 							float k = -MathHelper.sin(pitch * 0.0175f);
 							float l = MathHelper.cos(yaw * 0.0175f) * MathHelper.cos(pitch * 0.0175f);
 							float m = MathHelper.sqrt(h * h + k * k + l * l);
-							float n = 3.0F * (3.5f / 4.0F);
+							float n = 2.0F * (3.5f / 4.0F);
 							h *= n / m;
 							k *= n / m;
 							l *= n / m;
@@ -140,31 +140,9 @@ public class BaseHammerItem extends PickaxeItem implements ProjectileItem {
 						}
 						else {
 							this.setCooldowns(playerEntity, 40);
-							for (LivingEntity entity : world.getNonSpectatingEntities(LivingEntity.class, user.getBoundingBox().expand(4f, 2f, 4f))) {
-								if (QuartziteHammerItem.shockwaveShouldDamage(entity, user)) {
-									entity.takeKnockback(1, user.getX() - entity.getX(), user.getZ() - entity.getZ());
-									entity.damage(TacDamage.create(user.getWorld(), TacDamage.HAMMER_SHOCKWAVE, user), entity instanceof PlayerEntity ? 8 : 24);
-								}
-							}
-							if (!world.isClient()) {
-								var pos = new BlockPos.Mutable();
-
-								for (int y = 0; y <= 3; ++y) {
-									for (int x = -3; x <= 3; ++x) {
-										for (int z = -3; z <= 3; ++z) {
-											pos.set(playerEntity.getBlockPos())
-												.move(x, y, z);
-
-											if (world.getBlockState(pos).isIn(TacCorpsTrinkets.BREAKABLE_GLASS_TAG)) {
-												world.breakBlock(pos, false, user);
-											}
-										}
-									}
-								}
-							}
-							world.playSound(null, user.getX(), user.getY(), user.getZ(), TacCorpsTrinkets.HAMMER_SHOCKWAVE, SoundCategory.NEUTRAL, 2.0f, 1.0f);
+							hammerUserComponent.setBoostedSquared(true);
 							world.addParticle(TacCorpsTrinkets.HAMMER_WAVE, user.getX(), user.getY() + 0.2, user.getZ(), 0, 0, 0);
-							playerEntity.addVelocity(0, playerEntity.isOnGround() ? 1.5 : 1.0, 0); // gives increased velocity when on the ground
+							playerEntity.addVelocity(0, -1.0, 0);
 							user.velocityModified = true;
 						}
 					}

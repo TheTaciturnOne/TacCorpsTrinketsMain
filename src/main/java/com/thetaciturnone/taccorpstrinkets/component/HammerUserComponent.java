@@ -13,6 +13,8 @@ public class HammerUserComponent implements AutoSyncedComponent, CommonTickingCo
 	private final PlayerEntity playerEntity;
 	private boolean boosted;
 	private int boostedTicks;
+	private boolean boostedSquared;
+	private int boostedSquaredTicks;
 
 	public HammerUserComponent(PlayerEntity playerEntity) {
 		this.playerEntity = playerEntity;
@@ -22,12 +24,16 @@ public class HammerUserComponent implements AutoSyncedComponent, CommonTickingCo
 	public void readFromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
 		boosted = nbt.getBoolean("Boosted");
 		boostedTicks = nbt.getInt("BoostedTicks");
+		boostedSquared = nbt.getBoolean("BoostedSquared");
+		boostedSquaredTicks = nbt.getInt("BoostedSquaredTicks");
 	}
 
 	@Override
 	public void writeToNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
 		nbt.putBoolean("Boosted", boosted);
 		nbt.putInt("BoostedTicks", boostedTicks);
+		nbt.putBoolean("BoostedSquared", boostedSquared);
+		nbt.putInt("BoostedSquaredTicks", boostedSquaredTicks);
 	}
 
 	@Override
@@ -40,6 +46,14 @@ public class HammerUserComponent implements AutoSyncedComponent, CommonTickingCo
 				setBoosted(false);
 			}
 		}
+		if (boostedSquaredTicks > 0) {
+			boostedSquaredTicks--;
+		}
+		if (boostedSquared) {
+			if (boostedSquaredTicks == 0 && (playerEntity.isOnGround() || playerEntity.isTouchingWater())) {
+				setBoostedSquared(false);
+			}
+		}
 	}
 
 	public boolean hasBoosted() {
@@ -49,6 +63,15 @@ public class HammerUserComponent implements AutoSyncedComponent, CommonTickingCo
 	public void setBoosted(boolean value) {
 		boosted = value;
 		boostedTicks = value ? 10 : 0;
+		sync();
+	}
+	public boolean hasBoostedSquared() {
+		return boostedSquared;
+	}
+
+	public void setBoostedSquared(boolean value) {
+		boostedSquared = value;
+		boostedSquaredTicks = value ? 10 : 0;
 		sync();
 	}
 

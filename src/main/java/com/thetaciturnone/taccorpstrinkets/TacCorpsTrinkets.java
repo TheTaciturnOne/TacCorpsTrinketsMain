@@ -58,6 +58,7 @@ public class TacCorpsTrinkets implements ModInitializer {
 	public static SoundEvent HAMMER_WHIRRING = Registry.register(Registries.SOUND_EVENT, id("hammer_whir"), SoundEvent.of(id("hammer_whir")));
 	public static SoundEvent HAMMER_POWERSLAM = Registry.register(Registries.SOUND_EVENT, id("hammer_powerslam"), SoundEvent.of(id("hammer_powerslam")));
 	public static SoundEvent HAMMER_SHATTER = Registry.register(Registries.SOUND_EVENT, id("hammer_shatter"), SoundEvent.of(id("hammer_shatter")));
+	public static SoundEvent HAMMER_CRASH = Registry.register(Registries.SOUND_EVENT, id("hammer_crash"), SoundEvent.of(id("hammer_crash")));
 
 	public static final RegistryEntry<StatusEffect> STUNNED = registerStatusEffect("stunned",
 		new StatusEffectBase(StatusEffectCategory.HARMFUL, 0xe6ccc4));

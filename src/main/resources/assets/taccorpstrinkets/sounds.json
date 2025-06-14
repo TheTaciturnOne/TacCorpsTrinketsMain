@@ -60,6 +60,12 @@
       "taccorpstrinkets:hammer_shatter"
     ]
   },
+  "hammer_crash": {
+    "subtitle": "subtitles.taccorpstrinkets.hammer_crash",
+    "sounds": [
+      "taccorpstrinkets:hammer_crash"
+    ]
+  },
   "quartz_crystal_break": {
     "sounds": [
       "taccorpstrinkets:quartz_crystal_break1",
